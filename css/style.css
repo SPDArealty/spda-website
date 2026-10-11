@@ -243,3 +243,11 @@ html{scroll-padding-top:96px}
 a.soc:hover{color:var(--vermilion)}
 .soc[aria-disabled=true]{color:var(--stone);opacity:.55;cursor:default}
 @media (max-width:620px){.soc-list{gap:4px 24px}.soc{padding:8px 0;border-left:0}}
+
+/* Hero text block takes its width from the two buttons, so the headline and intro
+   line up with the button frames (left and right edges). */
+.hero .txt{width:fit-content}
+.hero .txt h1,.hero .txt .pitch{width:0;min-width:100%}
+.hero .pitch{max-width:none}
+.hero .txt h1{text-wrap:pretty}
+@media (max-width:820px){.hero .actions .btn{flex:1 1 100%;justify-content:center}}
