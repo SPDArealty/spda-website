@@ -257,3 +257,11 @@ a.soc:hover{color:var(--ink)}
 .hero .pitch{max-width:none}
 .hero .txt h1{text-wrap:pretty}
 @media (max-width:820px){.hero .actions .btn{flex:1 1 100%;justify-content:center}}
+
+/* Social icons (Font Awesome Free, CC BY 4.0) shown as single-colour silhouettes */
+.soc{display:inline-flex;align-items:center;gap:8px}
+.ico{display:inline-block;width:14px;height:14px;flex:none;background:currentColor;-webkit-mask:var(--ico) center/contain no-repeat;mask:var(--ico) center/contain no-repeat}
+.ico-instagram{--ico:url(../images/social/instagram.svg)}
+.ico-linkedin{--ico:url(../images/social/linkedin.svg)}
+.ico-facebook{--ico:url(../images/social/facebook.svg)}
+.ico-youtube{--ico:url(../images/social/youtube.svg);width:16px}
