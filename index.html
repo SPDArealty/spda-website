@@ -25,9 +25,13 @@
       <span><span class="mk"><img class="wm" src="images/spda-wordmark-ink.svg" alt="SPDA"></span><span class="legal">REAL ESTATE L.L.C.</span></span>
       <span class="desc" aria-hidden="true">Smart Properties<br>Development &amp;<br>Assets</span>
     </a>
-    <nav class="nav" aria-label="Sections">
+    <nav class="nav" id="site-nav" aria-label="Sections">
       <a href="#approach">Approach</a><a href="#services">Services</a><a href="#founders">Founders</a><a href="#contact">Contact</a>
     </nav>
+    <div class="top-actions">
+      <a class="btn ink btn-sm" href="#contact">Enquire</a>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav"><span class="menu-icon" aria-hidden="true"><i></i><i></i></span><span class="menu-label">Menu</span></button>
+    </div>
   </div>
 </header>
 
@@ -159,14 +163,36 @@
     </div>
   </section>
 
-  <!-- ===================== GENERAL ENQUIRIES ===================== -->
+  <!-- ===================== CONTACT US: enquiry form + office details ===================== -->
   <section class="ink contact" id="contact" aria-labelledby="ct-h" style="background:var(--ink);color:var(--bone)">
     <div class="wrap">
-      <div class="sec-head"><h2 id="ct-h">General enquiries</h2><p><span>For anything else, write to the office and the right founder will reply.</span></p></div>
-      <div class="rows">
-        <div class="row"><span class="k">Email</span><a class="v" href="mailto:info@spdarealty.com">info@spdarealty.com</a></div>
-        <div class="row"><span class="k">Office</span><span class="v">Office 000, Business Bay, Dubai, U.A.E.</span></div>
-        <div class="row"><span class="k">Registration</span><span class="v mono">Licence 1650083<br>RERA 64999</span></div>
+      <div class="sec-head"><h2 id="ct-h">Contact us</h2><p><span>Tell us what you own, or what you are looking for.</span><span>A founder will reply to you directly.</span></p></div>
+      <div class="contact-grid">
+        <!-- Enquiries are emailed to info@spdarealty.com (FormSubmit). Change the address in js/site.js and in the form action below. -->
+        <form class="enq" id="enquiry-form" action="https://formsubmit.co/info@spdarealty.com" method="POST" novalidate>
+          <input type="hidden" name="_subject" value="New enquiry from spdarealty.com">
+          <input type="hidden" name="_template" value="table">
+          <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="f2">
+            <label class="fld" for="f-first"><span class="lbl">First name</span><input id="f-first" name="First name" autocomplete="given-name" required><span class="msg" id="f-first-msg"></span></label>
+            <label class="fld" for="f-last"><span class="lbl">Family name</span><input id="f-last" name="Family name" autocomplete="family-name" required><span class="msg" id="f-last-msg"></span></label>
+          </div>
+          <div class="f2">
+            <label class="fld" for="f-phone"><span class="lbl">Phone</span><input id="f-phone" type="tel" name="Phone" autocomplete="tel" inputmode="tel" placeholder="+971 50 000 0000" required><span class="msg" id="f-phone-msg"></span></label>
+            <label class="fld" for="f-email"><span class="lbl">Email</span><input id="f-email" type="email" name="email" autocomplete="email" placeholder="name@example.com" required><span class="msg" id="f-email-msg"></span></label>
+          </div>
+          <label class="fld" for="f-msg"><span class="lbl">Your enquiry</span><textarea id="f-msg" name="Enquiry" rows="5" placeholder="The property or area, your budget and timing." required></textarea><span class="msg" id="f-msg-msg"></span></label>
+          <div class="f-foot">
+            <button class="btn fill" type="submit">Send enquiry</button>
+            <p class="f-note">We use your details only to reply to this enquiry.</p>
+          </div>
+          <p class="f-status" role="status" aria-live="polite"></p>
+        </form>
+        <div class="rows stack">
+          <div class="row"><span class="k">Email</span><a class="v" href="mailto:info@spdarealty.com">info@spdarealty.com</a></div>
+          <div class="row"><span class="k">Office</span><span class="v">Office 000, Business Bay, Dubai, U.A.E.</span></div>
+          <div class="row"><span class="k">Registration</span><span class="v mono">Licence 1650083<br>RERA 64999</span></div>
+        </div>
       </div>
     </div>
   </section>
@@ -182,5 +208,6 @@
     <div class="fine"><span>© 2026 SPDA Real Estate L.L.C. Property figures are indicative and not an offer or valuation.</span><span class="tick" aria-hidden="true"></span></div>
   </div>
 </footer>
+<script src="js/site.js" defer></script>
 </body>
 </html>
