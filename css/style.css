@@ -238,10 +238,11 @@ html{scroll-padding-top:96px}
 .social{border-bottom:1px solid var(--sand);padding-block:22px}
 .social .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 32px}
 .soc-list{display:flex;flex-wrap:wrap}
-.soc{font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:var(--ink);padding:10px 20px;border-left:1px solid var(--sand)}
+.social .eyebrow{color:var(--vermilion);font-weight:700}
+.soc{font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:var(--vermilion);padding:10px 20px;border-left:1px solid var(--sand)}
 .soc:first-child{border-left:0;padding-left:0}
-a.soc:hover{color:var(--vermilion)}
-.soc[aria-disabled=true]{color:var(--stone);opacity:.55;cursor:default}
+.soc[aria-disabled=true]{cursor:default}
+a.soc:hover{color:var(--ink)}
 @media (max-width:620px){.soc-list{gap:4px 24px}.soc{padding:8px 0;border-left:0}}
 
 /* Hero text block takes its width from the two buttons, so the headline and intro
