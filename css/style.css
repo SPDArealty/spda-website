@@ -125,6 +125,7 @@ html{scroll-padding-top:96px}
 .lockup .slogan span:last-child{letter-spacing:0}
 .band p.lead{font-size:clamp(1.1875rem,1.8vw,1.5rem);line-height:1.45;color:var(--bone);max-width:40ch}
 .band p.lead + p{margin-top:16px;color:var(--on-ink-2);max-width:52ch}
+.band p.new-firm{margin-top:16px;color:var(--on-ink-2);max-width:52ch}
 .datum-band{display:block;width:100%;max-width:none;height:72px;margin-top:clamp(48px,7vw,80px)}
 @media (max-width:820px){.band-grid{grid-template-columns:1fr;align-items:start}}
 
