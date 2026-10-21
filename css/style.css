@@ -81,6 +81,10 @@ img{display:block;max-width:100%}
 html{scroll-padding-top:96px}
 
 @media (max-width:860px){
+  .top .top-tel,.top .top-wa{display:none}
+  .nav .nav-contact{display:flex;flex-direction:column}
+  .nav .nav-wa{display:flex;align-items:center;gap:10px}
+  .nav .nav-wa .ico{width:20px;height:20px}
   .menu-btn{display:inline-flex}
   .nav{display:none;position:absolute;left:0;right:0;top:100%;flex-direction:column;gap:0;background:var(--ink);padding:8px var(--gutter) 28px;box-shadow:0 18px 30px rgba(19,19,19,.18)}
   .top.open .nav{display:flex}
@@ -89,7 +93,7 @@ html{scroll-padding-top:96px}
   .nav .nav-social{display:block;padding-top:22px}
   .nav .nav-social .eyebrow{color:var(--vermilion);font-weight:700}
   .nav .nav-social .soc-list{gap:6px 22px;margin-top:10px}
-  .nav .nav-social .soc{padding:6px 0;border:0;font-size:.75rem}
+  .nav .nav-social .soc{padding:6px 0;border:0;font-size:.75rem;color:var(--bone);font-weight:400}
   .top.open .menu-icon i:first-child{transform:translateY(4px) rotate(45deg)}
   .top.open .menu-icon i:last-child{transform:translateY(-4px) rotate(-45deg)}
 }
@@ -268,5 +272,12 @@ a.soc:hover{color:var(--vermilion)}
 .ico-linkedin{--ico:url(../images/social/linkedin.svg)}
 .ico-facebook{--ico:url(../images/social/facebook.svg)}
 .ico-whatsapp{--ico:url(../images/social/whatsapp.svg)}
+.top-tel{font-size:.8125rem;letter-spacing:.08em;text-decoration:none;white-space:nowrap}
+.top-tel:hover,.top-wa:hover{color:var(--vermilion)}
+.top-wa{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px}
+.top-wa .ico{width:20px;height:20px}
+.nav-contact{display:none}
+.reg a{text-decoration:none}.reg a:hover{color:var(--vermilion)}
+.reg .wa{display:inline-flex;align-items:center;gap:8px}
 .row .wa{display:inline-flex;align-items:center;gap:10px}
 .row .wa .ico{width:20px;height:20px}
