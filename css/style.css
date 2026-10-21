@@ -83,8 +83,8 @@ html{scroll-padding-top:96px}
 @media (max-width:860px){
   .top .top-tel,.top .top-wa{display:none}
   .nav .nav-contact{display:flex;flex-direction:column}
-  .nav .nav-wa{display:flex;align-items:center;gap:10px}
-  .nav .nav-wa .ico{width:20px;height:20px}
+  .nav .nav-wa{display:flex;align-items:center;gap:8px}
+  .nav .nav-wa .ico{width:24px;height:24px;margin-left:-3px}
   .menu-btn{display:inline-flex}
   .nav{display:none;position:absolute;left:0;right:0;top:100%;flex-direction:column;gap:0;background:var(--ink);padding:8px var(--gutter) 28px;box-shadow:0 18px 30px rgba(19,19,19,.18)}
   .top.open .nav{display:flex}
@@ -274,10 +274,17 @@ a.soc:hover{color:var(--vermilion)}
 .ico-whatsapp{--ico:url(../images/social/whatsapp.svg)}
 .top-tel{font-size:.8125rem;letter-spacing:.08em;text-decoration:none;white-space:nowrap}
 .top-tel:hover,.top-wa:hover{color:var(--vermilion)}
-.top-wa{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px}
+.top-wa{display:inline-flex;align-items:center;justify-content:center;width:24px;height:40px;margin-left:-6px}
 .top-wa .ico{width:20px;height:20px}
 .nav-contact{display:none}
 .reg a{text-decoration:none}.reg a:hover{color:var(--vermilion)}
-.reg .wa{display:inline-flex;align-items:center;gap:8px}
-.row .wa{display:inline-flex;align-items:center;gap:10px}
+.reg{align-items:center}
+.reg .wa{display:inline-flex;align-items:center;gap:6px}
+.reg .wa .ico{width:14px;height:14px}
+.row .wa{display:inline-flex;align-items:center;gap:8px}
 .row .wa .ico{width:20px;height:20px}
+/* WhatsApp glyph sits low against cap height: lift it to the text's optical centre */
+.ico-whatsapp{transform:translateY(-2px)}
+.reg .wa .ico-whatsapp{transform:translateY(-1px)}
+.top-wa .ico-whatsapp{transform:translateY(-2px)}
+.top-tel{position:relative;top:2px}
