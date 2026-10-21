@@ -274,7 +274,7 @@ a.soc:hover{color:var(--vermilion)}
 .ico-whatsapp{--ico:url(../images/social/whatsapp.svg)}
 .top-tel{font-size:.8125rem;letter-spacing:.08em;text-decoration:none;white-space:nowrap}
 .top-tel:hover,.top-wa:hover{color:var(--vermilion)}
-.top-wa{display:inline-flex;align-items:center;justify-content:center;width:24px;height:40px;margin-left:-6px}
+.top-wa{display:inline-flex;align-items:center;justify-content:center;width:24px;height:40px;margin-right:-9px}
 .top-wa .ico{width:20px;height:20px}
 .nav-contact{display:none}
 .reg a{text-decoration:none}.reg a:hover{color:var(--vermilion)}
