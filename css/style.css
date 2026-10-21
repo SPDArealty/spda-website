@@ -267,3 +267,6 @@ a.soc:hover{color:var(--vermilion)}
 .ico-instagram{--ico:url(../images/social/instagram.svg)}
 .ico-linkedin{--ico:url(../images/social/linkedin.svg)}
 .ico-facebook{--ico:url(../images/social/facebook.svg)}
+.ico-whatsapp{--ico:url(../images/social/whatsapp.svg)}
+.row .wa{display:inline-flex;align-items:center;gap:10px}
+.row .wa .ico{width:20px;height:20px}
