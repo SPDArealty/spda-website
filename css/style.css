@@ -451,3 +451,6 @@ a.soc:hover{color:var(--vermilion)}
 @media (max-width:820px){.svc{grid-template-columns:44px minmax(0,1fr) auto}}
 .svc h3 a{text-decoration:none}
 .svc:hover h3 a{color:var(--vermilion)}
+@media (min-width:821px){
+.page-head .ph-fig img.gv-hero{position:absolute;left:0;top:50%;width:100%;height:auto;transform:translateY(-69%);object-fit:initial}
+}
