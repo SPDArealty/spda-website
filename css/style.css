@@ -313,4 +313,16 @@ a.soc:hover{color:var(--vermilion)}
 .media .sec-head p > span{white-space:nowrap}
 .media .sec-head p > span + span{margin-left:20px;padding-left:20px;border-left:2px solid var(--vermilion)}
 @media (max-width:1100px){.media .sec-head{grid-template-columns:1fr}.media .sec-head p{justify-self:start}.media .sec-head p > span{white-space:normal}}
-@media (max-width:720px){.media .sec-head p > span + span{margin-left:0;padding-left:0;border-left:0;flex-basis:100%}}
+@media (max-width:720px){.media .sec-head p > span + span{margin-left:0;padding-left:0;border-left:0;flex-basis:100%}.media .sec-head p > span + span::before{content:"";display:block;width:44px;height:2px;background:var(--vermilion);margin:12px 0}}
+
+/* Media: custom video controls with Instagram link */
+.vid-frame{position:relative}
+.vctl{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:6px;padding:28px 8px 8px;background:linear-gradient(transparent,rgba(19,19,19,.82));color:var(--bone)}
+.vctl button,.vctl a{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;flex:none;background:none;border:0;color:inherit;cursor:pointer;text-decoration:none;padding:0}
+.vctl button:hover,.vctl a:hover{color:var(--vermilion)}
+.vctl svg{width:20px;height:20px;fill:currentColor}
+.vctl .ico{width:20px;height:20px}
+.v-seek{flex:1;min-width:0;height:3px;appearance:none;-webkit-appearance:none;background:linear-gradient(to right,var(--vermilion) var(--p,0%),rgba(242,237,231,.35) var(--p,0%));border-radius:0;outline-offset:6px;cursor:pointer}
+.v-seek::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;background:var(--bone);border:0;border-radius:50%}
+.v-seek::-moz-range-thumb{width:12px;height:12px;background:var(--bone);border:0;border-radius:50%}
+.vid-frame.playing .v-i-play,.vid-frame:not(.playing) .v-i-pause,.vid-frame.muted .v-i-vol,.vid-frame:not(.muted) .v-i-mute{display:none}
