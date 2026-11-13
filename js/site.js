@@ -78,6 +78,7 @@
   var icons = {
     play: P + '<path class="v-i-play" d="M7 4.5v15l13-7.5z"/><path class="v-i-pause" d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>',
     mute: P + '<path d="M3 9v6h4l5 4V5L7 9z"/><path class="v-i-vol" d="M15.5 8.5a5 5 0 0 1 0 7l-1.4-1.4a3 3 0 0 0 0-4.2zM18.4 5.6a9 9 0 0 1 0 12.8L17 17a7 7 0 0 0 0-10z"/><path class="v-i-mute" d="M15 9.4 16.4 8l2.1 2.1L20.6 8 22 9.4 19.9 11.5 22 13.6 20.6 15l-2.1-2.1L16.4 15 15 13.6l2.1-2.1z"/></svg>',
+    share: P + '<path d="M18 16a3 3 0 0 0-2.4 1.2l-7-3.5a3 3 0 0 0 0-1.4l7-3.5A3 3 0 1 0 15 7a3 3 0 0 0 .1.7l-7 3.5a3 3 0 1 0 0 3.6l7 3.5A3 3 0 1 0 18 16z"/></svg>',
     full: P + '<path d="M4 4h6v2H6v4H4zM14 4h6v6h-2V6h-4zM4 14h2v4h4v2H4zM18 14h2v6h-6v-2h4z"/></svg>'
   };
   document.querySelectorAll('.vid-frame video').forEach(function (v) {
@@ -88,8 +89,10 @@
     bar.innerHTML =
       '<button type="button" class="v-play" aria-label="Play or pause">' + icons.play + '</button>' +
       '<input class="v-seek" type="range" min="0" max="1000" value="0" aria-label="Seek">' +
+      '<span class="v-time" aria-label="Time">0:00 / 0:00</span>' +
       '<button type="button" class="v-mute" aria-label="Sound on or off">' + icons.mute + '</button>' +
       '<button type="button" class="v-full" aria-label="Full screen">' + icons.full + '</button>' +
+      '<button type="button" class="v-share" aria-label="Share this video">' + icons.share + '</button>' +
       (ig ? '<a class="v-ig" href="' + ig + '" target="_blank" rel="noopener" aria-label="View this video on Instagram"><span class="ico ico-instagram" aria-hidden="true"></span></a>' : '');
     frame.appendChild(bar);
     var seek = bar.querySelector('.v-seek');
@@ -102,6 +105,26 @@
       if (v.webkitEnterFullscreen && !frame.requestFullscreen) { v.webkitEnterFullscreen(); }
       else if (frame.requestFullscreen) { frame.requestFullscreen(); }
     });
+    bar.querySelector('.v-share').addEventListener('click', function () {
+      var art = frame.closest('.vid'), title = (art.querySelector('h4') || {}).textContent || 'SPDA Real Estate';
+      var url = location.origin + location.pathname + '#' + art.id;
+      function toast(msg) {
+        var t = frame.querySelector('.v-toast');
+        if (!t) { t = document.createElement('div'); t.className = 'v-toast'; t.setAttribute('role', 'status'); frame.appendChild(t); }
+        t.textContent = msg; t.classList.add('on'); setTimeout(function () { t.classList.remove('on'); }, 1800);
+      }
+      if (navigator.share) {
+        navigator.share({ title: title, text: title + ' | SPDA Real Estate', url: url }).catch(function () {});
+      } else if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(function () { toast('Link copied'); }, function () { toast(url); });
+      } else { toast(url); }
+    });
+    var timeEl = bar.querySelector('.v-time');
+    function fmt(t) { t = Math.max(0, Math.floor(t || 0)); return Math.floor(t / 60) + ':' + ('0' + (t % 60)).slice(-2); }
+    function showTime() { timeEl.textContent = fmt(v.currentTime) + ' / ' + fmt(v.duration); }
+    v.addEventListener('loadedmetadata', showTime);
+    v.addEventListener('timeupdate', showTime);
+    showTime();
     v.addEventListener('timeupdate', function () {
       var p = v.duration ? v.currentTime / v.duration * 100 : 0;
       seek.value = p * 10; seek.style.setProperty('--p', p + '%');
