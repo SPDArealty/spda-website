@@ -404,3 +404,7 @@ a.soc:hover{color:var(--vermilion)}
 .vl-txt{display:grid;gap:6px}
 .vl-txt strong{font-size:1.0625rem;line-height:1.25}
 .vl-empty{margin-top:20px;color:var(--body-2);border-left:2px solid var(--sand);padding-left:14px}
+
+.strip-grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.loopv video{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;display:block;background:var(--sand)}
+@media (max-width:820px){.strip-grid.two{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}}
