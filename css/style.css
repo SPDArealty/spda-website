@@ -318,7 +318,7 @@ a.soc:hover{color:var(--vermilion)}
 /* Media: custom video controls with Instagram link */
 .vid-frame{position:relative}
 .vctl{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:6px;padding:28px 8px 8px;background:linear-gradient(transparent,rgba(19,19,19,.82));color:var(--bone)}
-.vctl button,.vctl a{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;flex:none;background:none;border:0;color:inherit;cursor:pointer;text-decoration:none;padding:0}
+.vctl button,.vctl a{display:inline-flex;align-items:center;justify-content:center;width:36px;height:40px;flex:none;background:none;border:0;color:inherit;cursor:pointer;text-decoration:none;padding:0}
 .vctl button:hover,.vctl a:hover{color:var(--vermilion)}
 .vctl svg{width:20px;height:20px;fill:currentColor}
 .vctl .ico{width:20px;height:20px}
@@ -344,3 +344,13 @@ a.soc:hover{color:var(--vermilion)}
 .card.ink blockquote{border-left-color:var(--stone)}
 @media (min-width:901px){.card h3{min-height:2.4em;display:flex;align-items:flex-end}}
 .card.ink blockquote{color:var(--on-ink-2)}
+
+/* Media: full screen keeps the vertical shape; share button */
+.vid{scroll-margin-top:110px}
+.vid-frame:fullscreen,.vid-frame:-webkit-full-screen{display:grid;place-items:center;background:#000;aspect-ratio:auto;margin:0}
+.vid-frame:fullscreen video,.vid-frame:-webkit-full-screen video{height:100vh;width:auto;max-width:100vw;aspect-ratio:9/16;object-fit:contain}
+.vid-frame:fullscreen .vctl,.vid-frame:-webkit-full-screen .vctl{left:50%;right:auto;transform:translateX(-50%);width:min(100vw,calc(100vh * 9 / 16))}
+.v-toast{position:absolute;left:50%;bottom:64px;transform:translateX(-50%);background:var(--ink);color:var(--bone);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;padding:8px 12px;border-bottom:2px solid var(--vermilion);pointer-events:none;opacity:0;transition:opacity .2s}
+.v-toast.on{opacity:1}
+.v-time{flex:none;font-family:var(--f-mono);font-size:.75rem;letter-spacing:.02em;white-space:nowrap;min-width:5.6em;text-align:center}
+@media (max-width:560px){.vctl{gap:2px;padding-inline:4px}.vctl button,.vctl a{width:34px}.v-time{font-size:.6875rem;min-width:5.2em}}
