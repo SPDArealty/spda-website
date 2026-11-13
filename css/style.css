@@ -303,5 +303,6 @@ a.soc:hover{color:var(--vermilion)}
 .vid-price{font-weight:700}
 .vid-price span{font-weight:400;color:var(--body-2);margin-left:8px}
 .vid .cap{margin-top:2px}
+@media (min-width:1180px){.vids.four{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media (max-width:900px){.vids{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:560px){.vids{grid-template-columns:1fr;max-width:22rem}}
