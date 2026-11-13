@@ -449,3 +449,5 @@ a.soc:hover{color:var(--vermilion)}
 .svc h3 a{text-decoration:underline;text-decoration-color:var(--vermilion);text-underline-offset:5px;text-decoration-thickness:2px}
 .svc-hint{margin-top:10px;color:var(--stone);font-size:.9375rem}
 @media (max-width:820px){.svc{grid-template-columns:44px minmax(0,1fr) auto}}
+.svc h3 a{text-decoration:none}
+.svc:hover h3 a{color:var(--vermilion)}
