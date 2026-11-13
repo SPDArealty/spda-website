@@ -326,3 +326,21 @@ a.soc:hover{color:var(--vermilion)}
 .v-seek::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;background:var(--bone);border:0;border-radius:50%}
 .v-seek::-moz-range-thumb{width:12px;height:12px;background:var(--bone);border:0;border-radius:50%}
 .vid-frame.playing .v-i-play,.vid-frame:not(.playing) .v-i-pause,.vid-frame.muted .v-i-vol,.vid-frame:not(.muted) .v-i-mute{display:none}
+
+/* ---------- Who we work with: infographic cards ---------- */
+.card .art{margin:-30px -28px 6px;background:var(--bone);border-bottom:1px solid var(--sand)}
+.card.ink .art{background:#1d1a17;border-bottom-color:var(--ink-rule)}
+.art svg{display:block;width:100%;height:auto}
+.art .a{fill:var(--ink)}.art .b{fill:var(--sand)}.art .w{fill:var(--bone)}.art .v{fill:var(--vermilion)}
+.art .sa{fill:none;stroke:var(--ink);stroke-width:3}.art .sb2{stroke:var(--stone);stroke-width:3;fill:none}
+.card.ink .art .a{fill:var(--bone)}.card.ink .art .b{fill:var(--stone)}.card.ink .art .w{fill:#1d1a17}
+.card.ink .art .sa{stroke:var(--bone)}.card.ink .art .sb2{stroke:var(--sand)}
+.card .eyebrow{margin-top:10px}
+.pts{list-style:none;margin:0;padding:0}
+.pts li{display:flex;align-items:baseline;gap:14px;padding:12px 0;border-bottom:1px solid var(--sand);font-weight:700;font-size:1rem;line-height:1.35;color:var(--ink)}
+.card.ink .pts li{border-bottom-color:var(--ink-rule);color:var(--bone)}
+.pts .n{font-size:.75rem;font-weight:400;color:var(--stone);flex:none}
+.card blockquote{font-weight:400;font-size:1rem;color:var(--body-2);border-left:2px solid var(--sand);padding-left:14px;margin-top:10px}
+.card.ink blockquote{border-left-color:var(--stone)}
+@media (min-width:901px){.card h3{min-height:2.4em;display:flex;align-items:flex-end}}
+.card.ink blockquote{color:var(--on-ink-2)}
