@@ -418,3 +418,7 @@ a.soc:hover{color:var(--vermilion)}
 
 @media (min-width:821px){.hero .txt .pitch{max-width:none}.hero .txt .actions{display:grid;grid-template-columns:1fr 1fr;gap:12px}.hero .txt .actions .btn{justify-content:center;text-align:center;margin:0}}
 .all-media{margin:32px 0 0}.media-page{padding-top:56px}
+.svc-pts li .pt-img{margin:0 0 6px;order:-1}
+.svc-pts .pt-img img,.svc-pts .pt-empty{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;display:block;background:var(--sand)}
+.svc-pts li{border-top:0;padding-top:0}
+.svc-pts li .n{border-top:2px solid var(--ink);padding-top:14px}
