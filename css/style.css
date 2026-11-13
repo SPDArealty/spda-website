@@ -306,3 +306,11 @@ a.soc:hover{color:var(--vermilion)}
 @media (min-width:1180px){.vids.four{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media (max-width:900px){.vids{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:560px){.vids{grid-template-columns:1fr;max-width:22rem}}
+
+/* Media heading: two sentences on one line, split by a vermilion rule */
+.media .sec-head{grid-template-columns:auto minmax(0,1fr);justify-items:start}
+.media .sec-head p{display:flex;flex-wrap:wrap;align-items:center;gap:4px 0;justify-self:end}
+.media .sec-head p > span{white-space:nowrap}
+.media .sec-head p > span + span{margin-left:20px;padding-left:20px;border-left:2px solid var(--vermilion)}
+@media (max-width:1100px){.media .sec-head{grid-template-columns:1fr}.media .sec-head p{justify-self:start}.media .sec-head p > span{white-space:normal}}
+@media (max-width:720px){.media .sec-head p > span + span{margin-left:0;padding-left:0;border-left:0;flex-basis:100%}}
