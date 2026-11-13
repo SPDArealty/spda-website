@@ -412,3 +412,6 @@ a.soc:hover{color:var(--vermilion)}
 .hero-vid::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(242,237,231,.9) 0%,rgba(242,237,231,.78) 38%,rgba(242,237,231,0) 70%);pointer-events:none}
 .hero-vid .wrap{z-index:2}
 @media (max-width:820px){.hero video.bg{position:relative;height:auto;aspect-ratio:4/3}.hero-vid::before{display:none}}
+
+@media (min-width:821px){.hero .txt{max-width:none}.hero .txt h1{width:auto;min-width:0;white-space:nowrap}.hero .txt .pitch{max-width:34rem}}
+@media (max-width:820px){br.lb{display:none}}
