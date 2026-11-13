@@ -289,3 +289,20 @@ a.soc:hover{color:var(--vermilion)}
 .reg .wa .ico-whatsapp{transform:translateY(-1px)}
 .top-wa .ico-whatsapp{transform:translateY(-2px)}
 .top-tel{position:relative;top:2px}
+
+
+/* ---------- Media: video grid ---------- */
+.media .md-group{margin-top:56px}
+.md-title{display:flex;align-items:baseline;gap:20px;flex-wrap:wrap;padding-bottom:18px;border-bottom:1px solid var(--sand)}
+.md-title h3{font-size:clamp(1.5rem,2.4vw,2rem);text-transform:uppercase}
+.vids{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,3vw,40px);margin-top:32px}
+.vid{display:grid;gap:8px;align-content:start}
+.vid-frame{aspect-ratio:9/16;background:var(--ink);margin-bottom:10px}
+.vid-frame video{width:100%;height:100%;object-fit:cover;display:block}
+.vid h4{margin:0;font-size:1.25rem;line-height:1.2;letter-spacing:-.01em}
+.vid-price{font-weight:700}
+.vid-price span{font-weight:400;color:var(--body-2);margin-left:8px}
+.vid .cap{margin-top:2px}
+@media (min-width:1180px){.vids.four{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:900px){.vids{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.vids{grid-template-columns:1fr;max-width:22rem}}
