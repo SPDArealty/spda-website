@@ -1,4 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://spdarealty.com/</loc><lastmod>2026-11-13</lastmod></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+  <url>
+    <loc>https://spdarealty.com/</loc>
+    <lastmod>2026-11-13</lastmod>
+    <video:video>
+      <video:thumbnail_loc>https://spdarealty.com/media/palm-springs.jpg</video:thumbnail_loc>
+      <video:title>Palm Springs by Nakheel</video:title>
+      <video:description>Off-plan community by Nakheel in Dubai: what is in it and what it costs. Developer imagery.</video:description>
+      <video:content_loc>https://spdarealty.com/media/palm-springs.mp4</video:content_loc>
+      <video:duration>65</video:duration>
+      <video:publication_date>2026-11-12</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://spdarealty.com/media/terra-woods.jpg</video:thumbnail_loc>
+      <video:title>EX Terra Woods, Expo Living</video:title>
+      <video:description>Off-plan 1, 2 and 3 bedroom homes by Emaar in Expo Living, Dubai. Developer imagery.</video:description>
+      <video:content_loc>https://spdarealty.com/media/terra-woods.mp4</video:content_loc>
+      <video:duration>39</video:duration>
+      <video:publication_date>2026-11-07</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://spdarealty.com/media/golden-visa.jpg</video:thumbnail_loc>
+      <video:title>Golden Visa through property</video:title>
+      <video:description>How property worth AED 2 million or more can lead to a 10-year UAE Golden Visa.</video:description>
+      <video:content_loc>https://spdarealty.com/media/golden-visa.mp4</video:content_loc>
+      <video:duration>42</video:duration>
+      <video:publication_date>2026-11-06</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://spdarealty.com/media/cove-ii-2br.jpg</video:thumbnail_loc>
+      <video:title>Cove II, Building 9</video:title>
+      <video:description>Two-bedroom apartment for rent in Cove II, Dubai Creek Harbour.</video:description>
+      <video:content_loc>https://spdarealty.com/media/cove-ii-2br.mp4</video:content_loc>
+      <video:duration>30</video:duration>
+      <video:publication_date>2026-11-04</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://spdarealty.com/media/ebh-s401.jpg</video:thumbnail_loc>
+      <video:title>Ellington Beach House, S-401</video:title>
+      <video:description>Three-bedroom apartment for sale at Ellington Beach House, Palm Jumeirah.</video:description>
+      <video:content_loc>https://spdarealty.com/media/ebh-s401.mp4</video:content_loc>
+      <video:duration>32</video:duration>
+      <video:publication_date>2026-10-29</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
 </urlset>
