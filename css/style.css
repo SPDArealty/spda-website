@@ -417,3 +417,4 @@ a.soc:hover{color:var(--vermilion)}
 @media (max-width:820px){br.lb{display:none}}
 
 @media (min-width:821px){.hero .txt .pitch{max-width:none}.hero .txt .actions{display:grid;grid-template-columns:1fr 1fr;gap:12px}.hero .txt .actions .btn{justify-content:center;text-align:center;margin:0}}
+.all-media{margin:32px 0 0}.media-page{padding-top:56px}
