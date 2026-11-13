@@ -440,3 +440,4 @@ a.soc:hover{color:var(--vermilion)}
 .page-head .ph-fig{-webkit-mask-image:linear-gradient(90deg,transparent 0,transparent 14%,rgba(0,0,0,.5) 40%,#000 66%);mask-image:linear-gradient(90deg,transparent 0,transparent 14%,rgba(0,0,0,.5) 40%,#000 66%)}
 .page-head .actions .btn:not(.ink){background:var(--bone)}
 }
+.card .art img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
