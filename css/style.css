@@ -441,3 +441,13 @@ a.soc:hover{color:var(--vermilion)}
 .page-head .actions .btn:not(.ink){background:var(--bone)}
 }
 .card .art img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
+.svc{position:relative;grid-template-columns:44px minmax(0,1fr) auto;align-items:start;transition:background .2s}
+.svc h3 a::after{content:"";position:absolute;inset:0}
+.svc::after{content:"\2192";align-self:center;font-size:1.5rem;color:var(--vermilion);padding-right:6px;transition:transform .2s}
+.svc:hover{background:rgba(217,79,43,.06)}
+.svc:hover::after{transform:translateX(6px)}
+.svc h3 a{text-decoration:underline;text-decoration-color:var(--vermilion);text-underline-offset:5px;text-decoration-thickness:2px}
+.svc-hint{margin-top:10px;color:var(--stone);font-size:.9375rem}
+@media (max-width:820px){.svc{grid-template-columns:44px minmax(0,1fr) auto}}
+.svc h3 a{text-decoration:none}
+.svc:hover h3 a{color:var(--vermilion)}
