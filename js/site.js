@@ -137,3 +137,5 @@
     sync();
   });
 })();
+
+(function(){try{var v=document.querySelector('.hero video.bg');if(v&&window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches){v.removeAttribute('autoplay');v.pause();}}catch(e){}})();
