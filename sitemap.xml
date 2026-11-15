@@ -40,6 +40,15 @@
       <video:family_friendly>yes</video:family_friendly>
     </video:video>
     <video:video>
+      <video:thumbnail_loc>https://spdarealty.com/media/ebh-s401-view.jpg</video:thumbnail_loc>
+      <video:title>Ellington Beach House, S-401: the view</video:title>
+      <video:description>The sea and skyline view from a three-bedroom, 2,045 sq ft apartment for sale at Ellington Beach House, Palm Jumeirah.</video:description>
+      <video:content_loc>https://spdarealty.com/media/ebh-s401-view.mp4</video:content_loc>
+      <video:duration>21</video:duration>
+      <video:publication_date>2026-11-15</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+    <video:video>
       <video:thumbnail_loc>https://spdarealty.com/media/ebh-s401-cinematic.jpg</video:thumbnail_loc>
       <video:title>Ellington Beach House, S-401: the full tour</video:title>
       <video:description>Full tour of a three-bedroom, 2,045 sq ft apartment for sale at Ellington Beach House, Palm Jumeirah.</video:description>
