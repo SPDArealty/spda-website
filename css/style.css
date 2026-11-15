@@ -64,8 +64,9 @@ img{display:block;max-width:100%}
 .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:var(--bone);padding-block:18px;border-bottom:1.5px solid var(--ink)}
 .top .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px}
 .lock-inline{display:flex;align-items:center;gap:18px;text-decoration:none;color:var(--ink)}
-.lock-inline .mk{display:block;width:112px}
-.legal{display:block;font-size:.6875rem;letter-spacing:.02em;margin-top:5px;line-height:1}
+.lock-inline{--mkw:112px}
+.lock-inline .mk{display:block;width:var(--mkw)}
+.legal{display:block;width:0;min-width:100%;white-space:nowrap;font-size:calc(var(--mkw,112px)*.085);margin-top:5px;line-height:1;text-align:justify;text-align-last:justify;text-justify:inter-character}
 .lock-inline .desc{border-left:1px solid var(--sand);padding-left:16px;font-size:.625rem;letter-spacing:.2em;line-height:1.7;color:var(--stone);text-transform:uppercase}
 .nav{display:flex;gap:28px}
 .nav a{text-decoration:none;font-size:.75rem;letter-spacing:.2em;text-transform:uppercase}
@@ -98,7 +99,7 @@ html{scroll-padding-top:96px}
   .top.open .menu-icon i:first-child{transform:translateY(4px) rotate(45deg)}
   .top.open .menu-icon i:last-child{transform:translateY(-4px) rotate(-45deg)}
 }
-@media (max-width:420px){.lock-inline .mk{width:96px}.top-actions{gap:10px}.btn.btn-sm{padding:0 12px}}
+@media (max-width:420px){.lock-inline{--mkw:104px}.top-actions{gap:10px}.btn.btn-sm{padding:0 12px}}
 
 
 /* ---------- Hero (photo) ---------- */
@@ -213,8 +214,9 @@ html{scroll-padding-top:96px}
 
 .foot{padding-block:44px 40px}
 .foot-grid{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:28px}
-.foot .mk{display:block;width:96px}
-.foot .legal{font-size:.625rem;margin-top:4px}
+.foot{--mkw:96px}
+.foot .mk{display:block;width:var(--mkw)}
+.foot .legal{margin-top:4px}
 .reg{display:flex;flex-wrap:wrap;gap:6px 26px;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--stone)}
 .fine{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-top:28px;padding-top:18px;border-top:1px solid var(--sand);font-size:.8125rem;color:var(--stone)}
 .tick{flex:none;width:26px;height:3px;background:var(--vermilion);margin-bottom:6px}
