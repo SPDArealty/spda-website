@@ -107,7 +107,7 @@
     });
     bar.querySelector('.v-share').addEventListener('click', function () {
       var art = frame.closest('.vid'), title = (art.querySelector('h4') || {}).textContent || 'SPDA Real Estate';
-      var url = location.origin + location.pathname + '#' + art.id;
+      var url = location.origin + '/media/' + art.id.replace(/^v-/, '') + '/';
       function toast(msg) {
         var t = frame.querySelector('.v-toast');
         if (!t) { t = document.createElement('div'); t.className = 'v-toast'; t.setAttribute('role', 'status'); frame.appendChild(t); }
