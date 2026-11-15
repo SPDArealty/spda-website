@@ -4,6 +4,15 @@
     <loc>https://spdarealty.com/</loc>
     <lastmod>2026-11-13</lastmod>
     <video:video>
+      <video:thumbnail_loc>https://spdarealty.com/media/palm-springs-location.jpg</video:thumbnail_loc>
+      <video:title>Palm Springs: is it too far south?</video:title>
+      <video:description>Palm Springs by Nakheel: drive times as stated by Nakheel, connections and the airport expansion. Developer imagery.</video:description>
+      <video:content_loc>https://spdarealty.com/media/palm-springs-location.mp4</video:content_loc>
+      <video:duration>67</video:duration>
+      <video:publication_date>2026-11-15</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+    <video:video>
       <video:thumbnail_loc>https://spdarealty.com/media/palm-springs.jpg</video:thumbnail_loc>
       <video:title>Palm Springs by Nakheel</video:title>
       <video:description>Off-plan community by Nakheel in Dubai: what is in it and what it costs. Developer imagery.</video:description>
