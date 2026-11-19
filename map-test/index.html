@@ -1,19 +1,5 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
-<title>Map test</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
-<style>body{margin:0;padding:24px;background:#F2EDE7;color:#131313;font-family:Helvetica,Arial,sans-serif}h2{font-size:18px;margin:28px 0 8px}.m{height:380px;border:1.5px solid #131313;background:#C9B8A3}.m .leaflet-tile-pane{filter:grayscale(.85) sepia(.18) contrast(.95) brightness(1.03)}.op-pin span{display:block;width:18px;height:18px;margin:4px;background:#D94F2B;border:2px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 1px 4px rgba(0,0,0,.4)}.g iframe{filter:grayscale(.85) sepia(.18) contrast(.95) brightness(1.03)}</style></head>
-<body><h1 style="font-size:22px">Map provider test, Dubai Creek Harbour</h1>
-<h2>A. Esri Light Gray (English labels, no key)</h2><div class="m" id="a"></div>
-<h2>B. Esri World Street Map (English labels, no key)</h2><div class="m" id="b"></div>
-<h2>D. Google Maps embed (English, no key, shown with our colour filter)</h2><div class="m g"><iframe src="https://maps.google.com/maps?q=25.2005,55.3450&z=14&hl=en&output=embed" style="width:100%;height:100%;border:0" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
-<h2>C. Current: OpenStreetMap</h2><div class="m" id="c"></div>
-<script>
-function go(){
-var ll=[25.2005,55.3450],E='https://server.arcgisonline.com/ArcGIS/rest/services/',ea='Tiles &copy; Esri';
-function mk(id,layers){var m=L.map(id,{scrollWheelZoom:false}).setView(ll,13);layers.forEach(function(l){l.addTo(m)});L.marker(ll,{icon:L.divIcon({className:'op-pin',html:'<span></span>',iconSize:[26,26],iconAnchor:[13,26]})}).addTo(m);}
-mk('a',[L.tileLayer(E+'Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',{maxZoom:16,attribution:ea}),L.tileLayer(E+'Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}',{maxZoom:16})]);
-mk('b',[L.tileLayer(E+'World_Street_Map/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:ea})]);
-mk('c',[L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'})]);
-}
-var j=document.createElement('script');j.src='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';j.onload=go;document.head.appendChild(j);
-</script></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Map test</title>
+<style>body{margin:0;padding:24px;background:#F2EDE7;color:#131313;font-family:Helvetica,Arial,sans-serif}h2{font-size:22px;margin:0 0 4px}.op-map{height:clamp(300px,40vw,440px);margin-top:24px;background:#C9B8A3;border:1.5px solid #131313;position:relative;z-index:0;isolation:isolate;overflow:hidden}.op-map iframe{display:block;width:100%;height:100%;border:0;filter:grayscale(.55) sepia(.15) contrast(.97)}</style></head>
+<body><h2>Location</h2><p>Preview of the new Google map, as it will look on a project page (Dubai Creek Harbour).</p>
+<div class="op-map"><iframe src="https://maps.google.com/maps?q=25.2005,55.3450&z=14&hl=en&output=embed" title="Map" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+</body></html>

@@ -602,6 +602,7 @@ a.soc:hover{color:var(--vermilion)}
 /* project page: let the side card stick (page-head clips overflow elsewhere) */
 .page-head:has(#op-project){overflow:visible}
 /* map tiles in the warm site palette */
-.op-map .leaflet-tile-pane{filter:grayscale(.85) sepia(.18) contrast(.95) brightness(1.03)}
+.op-map{position:relative;z-index:0;isolation:isolate;overflow:hidden}
+.op-map iframe{display:block;width:100%;height:100%;border:0;filter:grayscale(.55) sepia(.15) contrast(.97)}
 .page-head:has(#op-project){padding-block:clamp(32px,4.5vw,56px) clamp(56px,7vw,96px)}
 .page-head:has(.op-fb){padding-top:clamp(32px,4.5vw,56px)}
