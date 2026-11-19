@@ -4,6 +4,15 @@
     <loc>https://spdarealty.com/</loc>
     <lastmod>2026-11-13</lastmod>
     <video:video>
+      <video:thumbnail_loc>https://spdarealty.com/media/canopies.jpg</video:thumbnail_loc>
+      <video:title>The Canopies Sanctuary, Yas Point: launching very soon</video:title>
+      <video:description>The Canopies Sanctuary at Yas Point, Yas Island by Aldar: 388 homes from studios to 3-bedrooms. Developer imagery, artist's impressions.</video:description>
+      <video:content_loc>https://spdarealty.com/media/canopies.mp4</video:content_loc>
+      <video:duration>52</video:duration>
+      <video:publication_date>2026-11-20</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+    <video:video>
       <video:thumbnail_loc>https://spdarealty.com/media/palm-springs-layouts.jpg</video:thumbnail_loc>
       <video:title>Palm Springs: what the homes look like inside</video:title>
       <video:description>Palm Springs by Nakheel: the five home layouts with unit areas and starting prices. Developer imagery, plans indicative.</video:description>
