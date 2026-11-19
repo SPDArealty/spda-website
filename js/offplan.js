@@ -27,13 +27,13 @@
   }
 
   function card(p) {
-    return '<a class="op-card" href="/off-plan/project/?id=' + encodeURIComponent(p.f) + '">' +
+    return '<a class="op-card" href="/off-plan/project/?id=' + encodeURIComponent(p.f) + '"><span class="op-in">' +
       '<figure>' + img(p.img, '') + '</figure>' +
       '<h3>' + esc(p.name) + '</h3>' +
       '<p class="op-where">' + esc(p.dev) + ' · ' + esc(p.area) + '</p>' +
       '<p class="op-price"><strong>From ' + aed(p.price) + '</strong><span>' + usd(p.price) + '</span></p>' +
       '<p class="op-meta">' + (beds(p.beds) ? '<span>' + beds(p.beds) + '</span>' : '') +
-      '<span>Handover ' + month(p.ho) + '</span>' + (p.plan ? '<span class="mono">' + p.plan.filter(Boolean).join('/') + '</span>' : '') + '</p></a>';
+      '<span>Handover ' + month(p.ho) + '</span>' + (p.plan ? '<span class="mono">' + p.plan.filter(Boolean).join('/') + '</span>' : '') + '</p></span></a>';
   }
 
   /* ---------------- List page ---------------- */
