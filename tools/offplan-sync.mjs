@@ -31,7 +31,11 @@ async function get(path) {
       await sleep(((body.retry_after_seconds || 5 * (attempt + 1)) + 1) * 1000);
       continue;
     }
-    if (!res.ok) throw new Error(`${path} returned HTTP ${res.status}`);
+    if (!res.ok) {
+      if (res.status === 401 || res.status === 403 || attempt === 3) throw new Error(`${path} returned HTTP ${res.status}`);
+      await sleep(3000 * (attempt + 1)); // the API sometimes returns a stray 404 or 502
+      continue;
+    }
     await sleep(1100); // stay under 60 a minute
     return res.json();
   }
