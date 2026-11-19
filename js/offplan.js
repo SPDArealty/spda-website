@@ -47,12 +47,14 @@
     var count = document.getElementById('op-count'), more = document.getElementById('op-more');
 
     function apply() {
-      var q = f.q.value.trim().toLowerCase(), a = f.area.value, d = f.dev.value, b = f.beds.value, m = +f.max.value || 0;
+      var q = f.q.value.trim().toLowerCase(), a = f.area.value, d = f.dev.value, b = f.beds.value, rg = f.max.value.split('-'), lo$ = +rg[0] || 0, hi$ = +rg[1] || 0;
+      document.getElementById('op-reset').hidden = !(q || a || d || b !== '' || f.max.value);
       current = all.filter(function (p) {
         if (q && (p.name + ' ' + p.dev + ' ' + p.area).toLowerCase().indexOf(q) < 0) return false;
         if (a && p.area !== a) return false;
         if (d && p.dev !== d) return false;
-        if (m && p.price > m) return false;
+        if (lo$ && p.price <= lo$) return false;
+        if (hi$ && p.price > hi$) return false;
         if (b !== '') { var n = +b; if (!p.beds) return false; var lo = p.beds[0] == null ? p.beds[1] : p.beds[0], hi = p.beds[1] == null ? lo : p.beds[1]; if (n === 5 ? hi < 5 : (n < lo || n > hi)) return false; }
         return true;
       });
@@ -87,6 +89,7 @@
     }).catch(function () { count.textContent = 'The project list could not be loaded. Please try again later.'; });
     Object.keys(f).forEach(function (k) { f[k].addEventListener(k === 'q' ? 'input' : 'change', apply); });
     more.addEventListener('click', render);
+    document.getElementById('op-reset').addEventListener('click', function () { f.q.value = f.area.value = f.dev.value = f.beds.value = f.max.value = ''; apply(); });
   }
 
   /* ---------------- Project page ---------------- */
