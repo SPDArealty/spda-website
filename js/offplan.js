@@ -298,18 +298,9 @@
 
   function initMap(lat, lng, name) {
     var el = document.getElementById('op-map'); if (!el) return;
-    function draw() {
-      var map = L.map(el, { scrollWheelZoom: false }).setView([lat, lng], 13);
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(map);
-      var pin = L.divIcon({ className: 'op-pin', html: '<span></span>', iconSize: [26, 26], iconAnchor: [13, 26] });
-      L.marker([lat, lng], { icon: pin, title: name, alt: name }).addTo(map);
-      map.on('click', function () { map.scrollWheelZoom.enable(); });
-    }
-    if (window.L) return draw();
-    var css = document.createElement('link'); css.rel = 'stylesheet'; css.href = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css'; document.head.appendChild(css);
-    var js = document.createElement('script'); js.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js'; js.onload = draw; document.head.appendChild(js);
+    var f = document.createElement('iframe');
+    f.src = 'https://maps.google.com/maps?q=' + lat + ',' + lng + '&z=14&hl=en&output=embed';
+    f.title = 'Map: ' + name; f.loading = 'lazy'; f.referrerPolicy = 'no-referrer-when-downgrade';
+    el.appendChild(f);
   }
 })();
