@@ -6,11 +6,13 @@
 <h2>A. Esri Light Gray (English labels, no key)</h2><div class="m" id="a"></div>
 <h2>B. Esri World Street Map (English labels, no key)</h2><div class="m" id="b"></div>
 <h2>C. Current: OpenStreetMap</h2><div class="m" id="c"></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
+function go(){
 var ll=[25.2005,55.3450],E='https://server.arcgisonline.com/ArcGIS/rest/services/',ea='Tiles &copy; Esri';
 function mk(id,layers){var m=L.map(id,{scrollWheelZoom:false}).setView(ll,13);layers.forEach(function(l){l.addTo(m)});L.marker(ll,{icon:L.divIcon({className:'op-pin',html:'<span></span>',iconSize:[26,26],iconAnchor:[13,26]})}).addTo(m);}
 mk('a',[L.tileLayer(E+'Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',{maxZoom:16,attribution:ea}),L.tileLayer(E+'Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}',{maxZoom:16})]);
 mk('b',[L.tileLayer(E+'World_Street_Map/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:ea})]);
 mk('c',[L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'})]);
+}
+var j=document.createElement('script');j.src='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';j.onload=go;document.head.appendChild(j);
 </script></body></html>
