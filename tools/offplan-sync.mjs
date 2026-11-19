@@ -67,7 +67,9 @@ function slim(p) {
     size: [num(p.min_size), num(p.max_size)],
     types: p.property_types || [],
     plan: plan(p.payment_plan),
-    img: (p.images || []).slice(0, 4), // the first images are the developer's exterior renders
+    img: (p.images || []).slice(0, 12),
+    lat: num(p.latitude),
+    lng: num(p.longitude),
     brochure: p.brochure || null,
     amenities: (p.amenities || []).slice(0, 12),
     nplans: p.floor_plan_count || 0,

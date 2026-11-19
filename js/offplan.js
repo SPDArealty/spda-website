@@ -26,6 +26,16 @@
     return src ? '<img class="op-photo" src="' + esc(src) + '" alt="' + esc(alt) + '"' + (eager ? ' fetchpriority="high"' : ' loading="lazy"') + ' referrerpolicy="no-referrer">' : '';
   }
 
+  function card(p) {
+    return '<a class="op-card" href="/off-plan/project/?id=' + encodeURIComponent(p.f) + '"><span class="op-in">' +
+      '<figure>' + img(p.img, '') + '</figure>' +
+      '<h3>' + esc(p.name) + '</h3>' +
+      '<p class="op-where">' + esc(p.dev) + ' · ' + esc(p.area) + '</p>' +
+      '<p class="op-price"><strong>From ' + aed(p.price) + '</strong><span>' + usd(p.price) + '</span></p>' +
+      '<p class="op-meta">' + (beds(p.beds) ? '<span>' + beds(p.beds) + '</span>' : '') +
+      '<span>Handover ' + month(p.ho) + '</span>' + (p.plan ? '<span class="mono">' + p.plan.filter(Boolean).join('/') + '</span>' : '') + '</p></span></a>';
+  }
+
   /* ---------------- List page ---------------- */
   var grid = document.getElementById('op-grid');
   if (grid) {
@@ -36,15 +46,6 @@
     };
     var count = document.getElementById('op-count'), more = document.getElementById('op-more');
 
-    function card(p) {
-      return '<a class="op-card" href="/off-plan/project/?id=' + encodeURIComponent(p.f) + '">' +
-        '<figure>' + img(p.img, '') + '</figure>' +
-        '<h3>' + esc(p.name) + '</h3>' +
-        '<p class="op-where">' + esc(p.dev) + ' · ' + esc(p.area) + '</p>' +
-        '<p class="op-price"><strong>From ' + aed(p.price) + '</strong><span>' + usd(p.price) + '</span></p>' +
-        '<p class="op-meta">' + (beds(p.beds) ? '<span>' + beds(p.beds) + '</span>' : '') +
-        '<span>Handover ' + month(p.ho) + '</span>' + (p.plan ? '<span class="mono">' + p.plan.filter(Boolean).join('/') + '</span>' : '') + '</p></a>';
-    }
     function apply() {
       var q = f.q.value.trim().toLowerCase(), a = f.area.value, d = f.dev.value, b = f.beds.value, m = +f.max.value || 0;
       current = all.filter(function (p) {
@@ -91,56 +92,221 @@
   /* ---------------- Project page ---------------- */
   var page = document.getElementById('op-project');
   if (page) {
+    var STAGES = ['on booking', 'during construction', 'on handover', 'after handover'];
     var id = new URLSearchParams(location.search).get('id') || '';
-    if (!/^[A-Za-z0-9_-]+$/.test(id)) { page.innerHTML = '<p class="op-empty">Project not found. <a href="/off-plan/">See all projects</a>.</p>'; return; }
-    fetch('/data/offplan/p/' + id + '.json').then(function (r) { if (!r.ok) throw 0; return r.json(); }).then(function (p) {
-      document.title = p.name + ' by ' + p.dev + ' | Off-plan in ' + p.area + ' | SPDA Real Estate';
-      var where = p.area + (p.sub && p.sub !== p.area ? ', ' + p.sub : '');
-      var form = '/?project=' + encodeURIComponent(p.name + ' by ' + p.dev) + '#contact';
-      var cta = document.getElementById('op-cta'); if (cta) cta.href = form;
-      var wa = 'https://wa.me/971586392188?text=' + encodeURIComponent('Hello SPDA, I would like details on ' + p.name + ' by ' + p.dev + '.');
-      var html = '<div class="op-head"><p class="eyebrow v"><a href="/off-plan/">Off-plan projects</a></p>' +
-        '<h1>' + esc(p.name) + '</h1><p class="lead">' + esc(p.dev) + ' · ' + esc(where) + '</p>' +
-        '<div class="actions"><a class="btn ink" href="' + form + '">Ask about this project</a><a class="btn" href="' + wa + '" target="_blank" rel="noopener">WhatsApp</a></div></div>';
-      if (p.img && p.img.length) html += '<div class="op-gallery">' + p.img.slice(0, 3).map(function (s, i) { return '<figure>' + img(s, i ? '' : p.name + ' by ' + p.dev, !i) + '</figure>'; }).join('') + '</div>';
-      var size = p.size && p.size[0] ? full(p.size[0]) + (p.size[1] && p.size[1] !== p.size[0] ? ' to ' + full(p.size[1]) : '') + ' sq ft' : '–';
-      html += '<dl class="op-facts">' +
-        '<div><dt>Starting price</dt><dd>AED ' + full(p.price) + '<small>about USD ' + full(p.price / USD) + '</small></dd></div>' +
-        '<div><dt>Handover</dt><dd>' + month(p.ho) + '</dd></div>' +
-        '<div><dt>Homes</dt><dd>' + (beds(p.beds) || '–') + '<small>' + esc(types(p.types)) + '</small></dd></div>' +
-        '<div><dt>Sizes</dt><dd>' + size + '</dd></div></dl>';
-      if (p.plan) {
-        var parts = p.plan.filter(function (x) { return x > 0; });
-        html += '<section class="op-plan"><h2 class="eyebrow">Payment plan</h2><p>' + parts.map(function (x) { return x + '%'; }).join(', ') + ' in order of payment, a total of 100% of the price.</p>' +
-          '<div class="op-bar" role="img" aria-label="Payment plan ' + parts.join(', ') + ' percent">' + parts.map(function (x) { return '<span style="flex:' + x + '">' + x + '%</span>'; }).join('') + '</div></section>';
+    var notFound = function () { page.innerHTML = '<p class="op-empty">Project not found. <a href="/off-plan/">See all projects</a>.</p>'; };
+    if (!/^[A-Za-z0-9_-]+$/.test(id)) { notFound(); return; }
+    Promise.all([
+      fetch('/data/offplan/p/' + id + '.json').then(function (r) { if (!r.ok) throw 0; return r.json(); }),
+      fetch('/data/offplan/list.json').then(function (r) { return r.json(); }).catch(function () { return { projects: [] }; })
+    ]).then(function (res) { build(res[0], res[1].projects || []); }).catch(notFound);
+  }
+
+  function build(p, list) {
+    document.title = p.name + ' by ' + p.dev + ' | Off-plan in ' + p.area + ' | SPDA Real Estate';
+    var label = p.name + ' by ' + p.dev;
+    var where = (p.sub && p.sub !== p.area ? p.sub + ', ' : '') + p.area;
+    var form = '/?project=' + encodeURIComponent(label) + '#contact';
+    var wa = 'https://wa.me/971586392188?text=' + encodeURIComponent('Hello SPDA, I would like details on ' + label + '.');
+    var cta = document.getElementById('op-cta'); if (cta) cta.href = form;
+    var imgs = p.img || [];
+    var sameDev = list.filter(function (x) { return x.dev === p.dev && x.id !== p.id; });
+    var html = '';
+
+    // Head
+    html += '<div class="op-head"><p class="eyebrow v"><a href="/off-plan/">Off-plan projects</a></p>' +
+      '<h1>' + esc(p.name) + '</h1><p class="lead">' + esc(p.dev) + ' · ' + esc(where) + '</p>' +
+      '<div class="actions"><a class="btn ink" href="' + form + '">Ask about this project</a><a class="btn" href="' + wa + '" target="_blank" rel="noopener">WhatsApp</a></div></div>';
+
+    // Gallery: one large and two small photos, arrows step through all photos
+    if (imgs.length) {
+      html += '<div class="op-gallery" id="op-gallery">' + [0, 1, 2].map(function (i) {
+        return '<figure' + (i >= imgs.length ? ' hidden' : '') + '><button type="button" class="op-zoom" data-slot="' + i + '" aria-label="Open photo larger">' +
+          '<img class="op-photo" alt="' + (i ? '' : esc(label)) + '"' + (i ? ' loading="lazy"' : ' fetchpriority="high"') + ' referrerpolicy="no-referrer"></button></figure>';
+      }).join('') +
+      (imgs.length > 1 ? '<button type="button" class="op-arrow prev" aria-label="Previous photo">&#8592;</button><button type="button" class="op-arrow next" aria-label="Next photo">&#8594;</button>' : '') +
+      '<span class="op-counter mono" aria-live="polite"></span></div>';
+    }
+
+    // Two columns: content and the side card that follows the scroll
+    html += '<div class="op-layout"><div class="op-main">';
+
+    var size = p.size && p.size[0] ? full(p.size[0]) + (p.size[1] && p.size[1] !== p.size[0] ? ' to ' + full(p.size[1]) : '') + ' sq ft' : '–';
+    html += '<dl class="op-facts">' +
+      '<div class="op-fact-price"><dt>Starting price</dt><dd>AED ' + full(p.price) + '<small>about USD ' + full(p.price / USD) + '</small></dd></div>' +
+      '<div><dt>Handover</dt><dd>' + month(p.ho) + '</dd></div>' +
+      '<div><dt>Homes</dt><dd>' + (beds(p.beds) || '–') + '<small>' + esc(types(p.types)) + '</small></dd></div>' +
+      '<div><dt>Sizes</dt><dd>' + size + '</dd></div></dl>';
+
+    // Payment plan with a label on each share
+    if (p.plan) {
+      var parts = p.plan.map(function (x, i) { return { pct: x, stage: STAGES[i] }; }).filter(function (x) { return x.pct > 0; });
+      html += '<section class="op-plan" aria-labelledby="pp-h"><h2 class="eyebrow" id="pp-h">Payment plan</h2>' +
+        '<div class="op-bar">' + parts.map(function (x) {
+          return '<div style="flex:' + x.pct + '"><span>' + x.pct + '%</span><small>' + x.stage.charAt(0).toUpperCase() + x.stage.slice(1) + '</small></div>';
+        }).join('') + '</div>' +
+        '<p class="op-note">Developers sometimes change the plan during offers. We confirm the current plan with you.</p></section>';
+    }
+
+    // Why this project: a factual summary built from the project data
+    var why = [];
+    why.push('<strong>Location.</strong> ' + esc(where) + ', Dubai.');
+    if (beds(p.beds) || p.types.length) why.push('<strong>Homes.</strong> ' + (beds(p.beds) ? beds(p.beds) + ' ' : '') + esc(types(p.types).toLowerCase() || 'homes') + (p.size && p.size[0] ? ', from ' + full(p.size[0]) + ' sq ft' : '') + '.');
+    why.push('<strong>Entry price.</strong> From AED ' + full(p.price) + ', about USD ' + full(p.price / USD) + '.');
+    if (p.plan) {
+      var before = p.plan[0] + p.plan[1], after = p.plan[2] + p.plan[3];
+      why.push('<strong>Cash flow.</strong> ' + before + '% is paid before handover' + (after ? ' and ' + after + '% on or after handover.' : '.'));
+    }
+    if (p.ho) {
+      var yrs = (new Date(p.ho) - new Date()) / 3.156e10;
+      var ry = Math.max(1, Math.round(yrs));
+      why.push('<strong>Timeline.</strong> Handover ' + month(p.ho) + (yrs >= 0.75 ? ', about ' + ry + ' year' + (ry > 1 ? 's' : '') + ' from now.' : ', within a year.'));
+    }
+    if (sameDev.length) why.push('<strong>Developer.</strong> ' + esc(p.dev) + ' has ' + (sameDev.length + 1) + ' projects on sale in Dubai on our list.');
+    html += '<section class="op-sec" aria-labelledby="why-h"><div class="sec-head"><h2 id="why-h">Why this project</h2></div><ul class="op-why">' +
+      why.map(function (w) { return '<li>' + w + '</li>'; }).join('') + '</ul></section>';
+
+    // Layouts and prices grouped by home type
+    var groups = {}, order = [];
+    (p.units || []).forEach(function (u) {
+      var k = u.type || u.layout || 'Other';
+      if (!groups[k]) { groups[k] = { beds: u.beds, sizes: [], prices: [], img: null }; order.push(k); }
+      var g = groups[k];
+      if (u.sqft) g.sizes.push(u.sqft);
+      if (u.price) g.prices.push(u.price);
+      if (!g.img && u.img) g.img = u.img;
+    });
+    order.sort(function (a, b) { return (groups[a].beds == null ? 99 : groups[a].beds) - (groups[b].beds == null ? 99 : groups[b].beds); });
+    if (order.length) {
+      html += '<section class="op-sec" id="layouts" aria-labelledby="lp-h"><div class="sec-head"><h2 id="lp-h">Layouts and prices</h2></div>' +
+        '<table class="op-table"><thead><tr><th>Home type</th><th>Size</th><th>From</th><th>Floor plan</th></tr></thead><tbody>' +
+        order.map(function (k) {
+          var g = groups[k], lo = Math.min.apply(null, g.sizes), hi = Math.max.apply(null, g.sizes), pr = Math.min.apply(null, g.prices);
+          var sz = g.sizes.length ? full(lo) + (hi > lo ? ' to ' + full(hi) : '') + ' sq ft' : '–';
+          return '<tr><td>' + esc(k) + '</td><td>' + sz + '</td><td>' +
+            (g.prices.length ? 'AED ' + full(pr) + '<small>about USD ' + full(pr / USD) + '</small>' : 'On request') + '</td><td>' +
+            (g.img ? '<a href="' + esc(g.img) + '" target="_blank" rel="noopener">View</a>' : '–') + '</td></tr>';
+        }).join('') + '</tbody></table></section>';
+    }
+
+    if (p.amenities && p.amenities.length) html += '<section class="op-sec" aria-labelledby="am-h"><div class="sec-head"><h2 id="am-h">Amenities</h2></div><ul class="op-amen">' + p.amenities.map(function (a) { return '<li>' + esc(a) + '</li>'; }).join('') + '</ul></section>';
+
+    if (p.lat && p.lng) html += '<section class="op-sec" id="location" aria-labelledby="loc-h"><div class="sec-head"><h2 id="loc-h">Location</h2></div><div class="op-map" id="op-map" role="region" aria-label="Map of ' + esc(where) + '"></div></section>';
+
+    var upd = p.upd ? new Date(p.upd).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' }) : '';
+    html += '<p class="cap op-source">Developer figures via BlackDrive' + (upd ? ', updated ' + upd : '') + '. We confirm price and availability before you reserve.</p>';
+    html += '</div>';
+
+    // Side card
+    html += '<aside class="op-side" aria-label="Enquire about ' + esc(p.name) + '"><div class="op-card-side">' +
+      '<p class="eyebrow">Starting price</p><p class="op-side-price">AED ' + full(p.price) + '</p><p class="op-side-usd">about USD ' + full(p.price / USD) + '</p>' +
+      '<a class="btn ink" href="' + form + '">Ask about this project</a>' +
+      (p.brochure ? '<button type="button" class="btn op-brochure-btn">Download brochure</button>' : '') +
+      '<p class="op-side-ho">Handover ' + month(p.ho) + '</p>' +
+      '<nav class="op-side-links">' + (order.length ? '<a href="#layouts">Floor plans<small>Layouts, sizes and prices</small></a>' : '') +
+      (p.lat ? '<a href="#location">Location<small>Map of ' + esc(p.area) + '</small></a>' : '') + '</nav>' +
+      '<p class="op-side-dev"><span class="eyebrow">Developer</span>' + esc(p.dev) + '</p></div></aside>';
+    html += '</div>';
+
+    // Phone: a bar fixed to the bottom of the screen
+    html += '<div class="op-mbar"><span><small>From</small>AED ' + short(p.price) + '</span><a class="btn ink btn-sm" href="' + form + '">Ask about this project</a></div>';
+
+    // More from this developer
+    if (sameDev.length) {
+      var three = sameDev.slice(0, 3);
+      html += '<section class="op-sec" aria-labelledby="more-h"><div class="sec-head"><h2 id="more-h">More from ' + esc(p.dev) + '</h2></div><div class="op-grid">' +
+        three.map(card).join('') + '</div></section>';
+    }
+
+    // Brochure form
+    if (p.brochure) {
+      html += '<dialog class="op-dialog" id="op-brochure" aria-labelledby="br-h"><form method="dialog" class="op-dialog-x"><button aria-label="Close">&#10005;</button></form>' +
+        '<div class="op-br-body"><p class="eyebrow v">Brochure</p><h2 id="br-h">' + esc(p.name) + '</h2><p>Leave your details and the developer brochure opens straight away. One of us may follow up.</p>' +
+        '<form class="op-br-form" novalidate>' +
+        '<label>Full name<input name="Name" autocomplete="name" required></label>' +
+        '<label>Email<input name="email" type="email" autocomplete="email" required></label>' +
+        '<label>Phone<input name="Phone" type="tel" autocomplete="tel" placeholder="+971 50 000 0000" required></label>' +
+        '<input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">' +
+        '<p class="op-br-msg" aria-live="polite"></p><button class="btn ink" type="submit">Download brochure</button></form></div></dialog>';
+    }
+
+    // Large photo view
+    if (imgs.length) html += '<dialog class="op-light" id="op-light" aria-label="Photos of ' + esc(p.name) + '"><img alt="" referrerpolicy="no-referrer"><button type="button" class="op-arrow prev" aria-label="Previous photo">&#8592;</button><button type="button" class="op-arrow next" aria-label="Next photo">&#8594;</button><form method="dialog" class="op-dialog-x"><button aria-label="Close">&#10005;</button></form><span class="op-counter mono"></span></dialog>';
+
+    page.innerHTML = html;
+    initGallery(imgs);
+    initBrochure(p, label);
+    if (p.lat && p.lng) initMap(p.lat, p.lng, p.name);
+  }
+
+  function initGallery(imgs) {
+    var g = document.getElementById('op-gallery'); if (!g) return;
+    var start = 0, n = imgs.length;
+    var slots = g.querySelectorAll('img'), counter = g.querySelector('.op-counter');
+    function show() {
+      for (var i = 0; i < 3; i++) if (i < n) slots[i].src = imgs[(start + i) % n];
+      counter.textContent = n > 1 ? ((start % n) + 1) + ' / ' + n : '';
+    }
+    function step(d) { start = (start + d + n) % n; show(); }
+    var prev = g.querySelector('.prev'), next = g.querySelector('.next');
+    if (prev) { prev.onclick = function () { step(-1); }; next.onclick = function () { step(1); }; }
+    show();
+    // Large view
+    var box = document.getElementById('op-light'), big = box.querySelector('img'), cur = 0, bc = box.querySelector('.op-counter');
+    function open(i) { cur = (i + n) % n; big.src = imgs[cur]; bc.textContent = (cur + 1) + ' / ' + n; }
+    g.addEventListener('click', function (e) {
+      var b = e.target.closest('.op-zoom'); if (!b) return;
+      open(start + (+b.dataset.slot)); box.showModal();
+    });
+    box.querySelector('.prev').onclick = function () { open(cur - 1); };
+    box.querySelector('.next').onclick = function () { open(cur + 1); };
+    if (n < 2) { box.querySelector('.prev').hidden = box.querySelector('.next').hidden = true; }
+    box.addEventListener('keydown', function (e) { if (e.key === 'ArrowLeft') open(cur - 1); if (e.key === 'ArrowRight') open(cur + 1); });
+    box.addEventListener('click', function (e) { if (e.target === box) box.close(); });
+  }
+
+  function initBrochure(p, label) {
+    var dlg = document.getElementById('op-brochure'); if (!dlg) return;
+    document.querySelectorAll('.op-brochure-btn').forEach(function (b) { b.addEventListener('click', function () { dlg.showModal(); }); });
+    dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+    var f = dlg.querySelector('.op-br-form'), msg = f.querySelector('.op-br-msg');
+    var LIVE = /(^|\.)spdarealty\.com$/.test(location.hostname);
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name = f.Name.value.trim(), email = f.email.value.trim(), phone = f.Phone.value.trim();
+      if (!name) { msg.textContent = 'Please enter your name.'; f.Name.focus(); return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { msg.textContent = 'Please enter a valid email address.'; f.email.focus(); return; }
+      if (phone.replace(/[^\d]/g, '').length < 7) { msg.textContent = 'Please enter a phone number with country code.'; f.Phone.focus(); return; }
+      if (f._honey.value) return;
+      function done(preview) {
+        dlg.querySelector('.op-br-body').innerHTML = '<p class="eyebrow v">Thank you</p><h2>' + esc(name.split(' ')[0]) + ', your brochure is ready.</h2>' +
+          '<p><a class="btn ink" href="' + esc(p.brochure) + '" target="_blank" rel="noopener">Open the brochure (PDF)</a></p>' +
+          (preview ? '<p class="cap">Preview only: nothing was sent.</p>' : '');
       }
-      // Group the developer's floor plans by home type: size range, lowest price, one plan image.
-      var groups = {}, order = [];
-      (p.units || []).forEach(function (u) {
-        var k = u.type || u.layout || 'Other';
-        if (!groups[k]) { groups[k] = { beds: u.beds, sizes: [], prices: [], img: null }; order.push(k); }
-        var g = groups[k];
-        if (u.sqft) g.sizes.push(u.sqft);
-        if (u.price) g.prices.push(u.price);
-        if (!g.img && u.img) g.img = u.img;
-      });
-      order.sort(function (a, b) { return (groups[a].beds == null ? 99 : groups[a].beds) - (groups[b].beds == null ? 99 : groups[b].beds); });
-      if (order.length) {
-        html += '<section class="sec" style="padding-bottom:0"><div class="sec-head"><h2>Layouts and prices</h2><p><span>Starting figures per home type. They change with the floor and the view.</span></p></div>' +
-          '<table class="op-table"><thead><tr><th>Home type</th><th>Size</th><th>From</th><th>Floor plan</th></tr></thead><tbody>' +
-          order.map(function (k) {
-            var g = groups[k], lo = Math.min.apply(null, g.sizes), hi = Math.max.apply(null, g.sizes), pr = Math.min.apply(null, g.prices);
-            var size = g.sizes.length ? full(lo) + (hi > lo ? ' to ' + full(hi) : '') + ' sq ft' : '–';
-            return '<tr><td>' + esc(k) + '</td><td>' + size + '</td><td>' +
-              (g.prices.length ? 'AED ' + full(pr) + '<small>about USD ' + full(pr / USD) + '</small>' : 'On request') + '</td><td>' +
-              (g.img ? '<a href="' + esc(g.img) + '" target="_blank" rel="noopener">View</a>' : '–') + '</td></tr>';
-          }).join('') + '</tbody></table></section>';
-      }
-      if (p.amenities && p.amenities.length) html += '<section class="sec" style="padding-bottom:0"><div class="sec-head"><h2>Amenities</h2><p><span>As listed by the developer.</span></p></div><ul class="op-amen">' + p.amenities.map(function (a) { return '<li>' + esc(a) + '</li>'; }).join('') + '</ul></section>';
-      if (p.brochure) html += '<p style="margin-top:32px"><a class="btn" href="' + esc(p.brochure) + '" target="_blank" rel="noopener">Developer brochure (PDF)</a></p>';
-      var upd = p.upd ? new Date(p.upd).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' }) : '';
-      html += '<p class="cap src">Developer figures via BlackDrive' + (upd ? ', last changed ' + upd : '') + '. Prices and availability change. We confirm both with the developer before you reserve.</p>';
-      page.innerHTML = html;
-    }).catch(function () { page.innerHTML = '<p class="op-empty">Project not found. <a href="/off-plan/">See all projects</a>.</p>'; });
+      if (!LIVE) { done(true); return; }
+      msg.textContent = 'Sending';
+      fetch('https://formsubmit.co/ajax/info@spdarealty.com', {
+        method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ _subject: 'Brochure request: ' + label, _template: 'table', Project: label, Page: location.href, Name: name, email: email, Phone: phone })
+      }).then(function (r) { if (!r.ok) throw 0; done(false); })
+        .catch(function () { msg.textContent = 'This did not send. Please try again, or call +971 58 639 2188.'; });
+    });
+  }
+
+  function initMap(lat, lng, name) {
+    var el = document.getElementById('op-map'); if (!el) return;
+    function draw() {
+      var map = L.map(el, { scrollWheelZoom: false }).setView([lat, lng], 13);
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        maxZoom: 19, subdomains: 'abcd',
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+      }).addTo(map);
+      var pin = L.divIcon({ className: 'op-pin', html: '<span></span>', iconSize: [26, 26], iconAnchor: [13, 26] });
+      L.marker([lat, lng], { icon: pin, title: name, alt: name }).addTo(map);
+      map.on('click', function () { map.scrollWheelZoom.enable(); });
+    }
+    if (window.L) return draw();
+    var css = document.createElement('link'); css.rel = 'stylesheet'; css.href = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css'; document.head.appendChild(css);
+    var js = document.createElement('script'); js.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js'; js.onload = draw; document.head.appendChild(js);
   }
 })();
