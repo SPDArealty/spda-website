@@ -469,8 +469,8 @@ a.soc:hover{color:var(--vermilion)}
 .op-count{margin-top:20px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px}
 .op-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:clamp(16px,2.4vw,28px);margin-top:24px}
 .op-card{display:block;text-decoration:none;color:var(--ink);border-top:2px solid var(--ink);padding-top:10px}
-.op-in{display:grid;align-content:start;gap:12px;padding:0 0 16px;margin-top:6px;overflow:hidden;background:var(--bone);border-radius:6px;transition:transform .25s ease,box-shadow .25s ease,background-color .25s ease}
-.op-card:hover .op-in,.op-card:focus-visible .op-in{transform:translateY(-8px);background:var(--white);box-shadow:0 18px 36px -18px rgba(19,19,19,.35)}
+.op-in{display:grid;align-content:start;gap:12px;padding:0 0 16px;margin-top:6px;overflow:hidden;background:var(--bone);border-radius:0;transition:transform .25s ease,box-shadow .25s ease,background-color .25s ease,border-radius .25s ease}
+.op-card:hover .op-in,.op-card:focus-visible .op-in{border-radius:8px;transform:translateY(-8px);background:var(--white);box-shadow:0 18px 36px -18px rgba(19,19,19,.35)}
 .op-card:hover h3{color:var(--vermilion)}
 .op-card img{transition:transform .5s ease}
 .op-card:hover img{transform:scale(1.04)}
@@ -577,3 +577,24 @@ a.soc:hover{color:var(--vermilion)}
 .op-light .op-dialog-x button{color:var(--bone);font-size:1.5rem}
 .op-light .op-counter{left:50%;top:auto;bottom:16px;transform:translateX(-50%)}
 .cta-1l h2{max-width:none}
+
+/* Filter bar, option B: one white bar split into segments */
+.op-fb{grid-template-columns:1.7fr repeat(5,minmax(0,1fr));gap:0;background:var(--white);border:1.5px solid var(--ink);margin-top:36px;position:relative;box-shadow:0 14px 30px -22px rgba(19,19,19,.45)}
+.op-fb label{gap:2px;padding:12px 18px 10px;border-left:1px solid var(--sand);cursor:pointer;transition:background-color .2s ease;position:relative}
+.op-fb label:first-child{border-left:0}
+.op-fb label:hover{background:var(--bone)}
+.op-fb label::after{content:"";position:absolute;left:18px;right:18px;bottom:0;height:3px;background:var(--vermilion);transform:scaleX(0);transform-origin:left;transition:transform .25s ease}
+.op-fb label:focus-within::after{transform:scaleX(1)}
+.op-fb label > span:first-child{font-size:.6875rem;letter-spacing:.18em;color:var(--stone)}
+.op-fb .op-field{display:flex;align-items:center;gap:8px;position:relative}
+.op-fb input,.op-fb select{min-height:30px;padding:0;border:0;background:transparent;font:700 1rem var(--f-sans);color:var(--ink);-webkit-appearance:none;appearance:none;outline:0}
+.op-fb select{padding-right:22px;cursor:pointer;text-overflow:ellipsis}
+.op-fb select + *{display:none}
+.op-fb label:not(.op-q) .op-field::after{content:"";position:absolute;right:2px;top:50%;width:7px;height:7px;border-right:1.6px solid var(--ink);border-bottom:1.6px solid var(--ink);transform:translateY(-70%) rotate(45deg);pointer-events:none}
+.op-fb input::placeholder{color:var(--stone);font-weight:400}
+.op-fb input:focus,.op-fb select:focus{outline:0}
+.op-ico{width:18px;height:18px;flex:none;color:var(--vermilion)}
+.op-reset{position:absolute;right:0;top:calc(100% + 14px);background:none;border:0;padding:0;font:700 .75rem var(--f-sans);letter-spacing:.16em;text-transform:uppercase;color:var(--ink);border-bottom:2px solid var(--vermilion);cursor:pointer}
+.op-fb + .op-count{margin-top:18px;padding-right:9rem}
+@media (max-width:1000px){.op-fb{grid-template-columns:repeat(3,minmax(0,1fr))}.op-fb .op-q{grid-column:1/-1;border-bottom:1px solid var(--sand)}.op-fb label:nth-child(2),.op-fb label:nth-child(5){border-left:0}.op-fb label:nth-child(n+2):nth-child(-n+4){border-bottom:1px solid var(--sand)}}
+@media (max-width:560px){.op-fb{grid-template-columns:repeat(2,minmax(0,1fr))}.op-fb label,.op-fb label:nth-child(n){padding:10px 14px 8px;border-left:0;border-bottom:0;border-top:1px solid var(--sand)}.op-fb .op-q{border-top:0}.op-fb label:nth-child(n+2):nth-child(-n+4){border-bottom:0}.op-fb label:nth-child(3),.op-fb label:nth-child(5){border-left:1px solid var(--sand)}.op-fb label:nth-child(6){grid-column:1/-1}.op-fb + .op-count{padding-right:0}.op-reset{position:static;margin:12px 0 0;grid-column:1/-1;justify-self:start}}
