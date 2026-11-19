@@ -598,3 +598,10 @@ a.soc:hover{color:var(--vermilion)}
 .op-fb + .op-count{margin-top:18px;padding-right:9rem}
 @media (max-width:1000px){.op-fb{grid-template-columns:repeat(3,minmax(0,1fr))}.op-fb .op-q{grid-column:1/-1;border-bottom:1px solid var(--sand)}.op-fb label:nth-child(2),.op-fb label:nth-child(5){border-left:0}.op-fb label:nth-child(n+2):nth-child(-n+4){border-bottom:1px solid var(--sand)}}
 @media (max-width:560px){.op-fb{grid-template-columns:repeat(2,minmax(0,1fr))}.op-fb label,.op-fb label:nth-child(n){padding:10px 14px 8px;border-left:0;border-bottom:0;border-top:1px solid var(--sand)}.op-fb .op-q{border-top:0}.op-fb label:nth-child(n+2):nth-child(-n+4){border-bottom:0}.op-fb label:nth-child(3),.op-fb label:nth-child(5){border-left:1px solid var(--sand)}.op-fb label:nth-child(6){grid-column:1/-1}.op-fb + .op-count{padding-right:0}.op-reset{position:static;margin:12px 0 0;grid-column:1/-1;justify-self:start}}
+
+/* project page: let the side card stick (page-head clips overflow elsewhere) */
+.page-head:has(#op-project){overflow:visible}
+/* map tiles in the warm site palette */
+.op-map .leaflet-tile-pane{filter:grayscale(.85) sepia(.18) contrast(.95) brightness(1.03)}
+.page-head:has(#op-project){padding-block:clamp(32px,4.5vw,56px) clamp(56px,7vw,96px)}
+.page-head:has(.op-fb){padding-top:clamp(32px,4.5vw,56px)}
