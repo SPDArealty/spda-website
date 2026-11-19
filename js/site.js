@@ -21,6 +21,15 @@
   var LIVE = /(^|\.)spdarealty\.com$/.test(location.hostname);
   var form = document.getElementById('enquiry-form');
   if (!form) return;
+  /* Prefill from an off-plan project page: /?project=Name#contact */
+  var proj = new URLSearchParams(location.search).get('project');
+  if (proj) {
+    proj = proj.slice(0, 120);
+    var msgEl = document.getElementById('f-msg');
+    if (msgEl && !msgEl.value) msgEl.value = 'I would like details on ' + proj + ': prices, available units and the payment plan.';
+    var subj = form.querySelector('input[name=_subject]');
+    if (subj) subj.value = 'Off-plan enquiry: ' + proj;
+  }
   var status = form.querySelector('.f-status');
   var submit = form.querySelector('button[type=submit]');
 

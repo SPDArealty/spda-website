@@ -96,10 +96,12 @@
     fetch('/data/offplan/p/' + id + '.json').then(function (r) { if (!r.ok) throw 0; return r.json(); }).then(function (p) {
       document.title = p.name + ' by ' + p.dev + ' | Off-plan in ' + p.area + ' | SPDA Real Estate';
       var where = p.area + (p.sub && p.sub !== p.area ? ', ' + p.sub : '');
+      var form = '/?project=' + encodeURIComponent(p.name + ' by ' + p.dev) + '#contact';
+      var cta = document.getElementById('op-cta'); if (cta) cta.href = form;
       var wa = 'https://wa.me/971586392188?text=' + encodeURIComponent('Hello SPDA, I would like details on ' + p.name + ' by ' + p.dev + '.');
       var html = '<div class="op-head"><p class="eyebrow v"><a href="/off-plan/">Off-plan projects</a></p>' +
         '<h1>' + esc(p.name) + '</h1><p class="lead">' + esc(p.dev) + ' · ' + esc(where) + '</p>' +
-        '<div class="actions"><a class="btn ink" href="' + wa + '" target="_blank" rel="noopener">Ask about this project</a><a class="btn" href="/#contact">Send an enquiry</a></div></div>';
+        '<div class="actions"><a class="btn ink" href="' + form + '">Ask about this project</a><a class="btn" href="' + wa + '" target="_blank" rel="noopener">WhatsApp</a></div></div>';
       if (p.img && p.img.length) html += '<div class="op-gallery">' + p.img.slice(0, 3).map(function (s, i) { return '<figure>' + img(s, i ? '' : p.name + ' by ' + p.dev, !i) + '</figure>'; }).join('') + '</div>';
       var size = p.size && p.size[0] ? full(p.size[0]) + (p.size[1] && p.size[1] !== p.size[0] ? ' to ' + full(p.size[1]) : '') + ' sq ft' : '–';
       html += '<dl class="op-facts">' +
