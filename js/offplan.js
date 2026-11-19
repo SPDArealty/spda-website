@@ -300,9 +300,9 @@
     var el = document.getElementById('op-map'); if (!el) return;
     function draw() {
       var map = L.map(el, { scrollWheelZoom: false }).setView([lat, lng], 13);
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        maxZoom: 19, subdomains: 'abcd',
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       }).addTo(map);
       var pin = L.divIcon({ className: 'op-pin', html: '<span></span>', iconSize: [26, 26], iconAnchor: [13, 26] });
       L.marker([lat, lng], { icon: pin, title: name, alt: name }).addTo(map);
