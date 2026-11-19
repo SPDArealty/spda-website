@@ -1,0 +1,40 @@
+# Refresh the off-plan projects data from the BlackDrive Live API every day.
+# Needs the repository secret BLACKDRIVE_API_KEY (Settings > Secrets and variables > Actions).
+name: Off-plan data sync
+
+on:
+  schedule:
+    - cron: "15 1 * * *"   # 05:15 Dubai time
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: offplan-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Pull projects and new floor plans
+        env:
+          BLACKDRIVE_API_KEY: ${{ secrets.BLACKDRIVE_API_KEY }}
+          PLAN_LIMIT: "1000"
+        run: |
+          if [ -z "$BLACKDRIVE_API_KEY" ]; then echo "BLACKDRIVE_API_KEY secret is not set"; exit 1; fi
+          node tools/offplan-sync.mjs --plans
+      - name: Commit changes
+        run: |
+          git config user.name "spda-offplan-sync"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/offplan
+          if git diff --cached --quiet; then echo "No changes"; exit 0; fi
+          git commit -m "Off-plan data: daily sync $(date -u +%F)"
+          git push
