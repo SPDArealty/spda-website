@@ -13,6 +13,7 @@
   function aed(n) { return 'AED ' + short(n); }
   function usd(n) { return 'USD ' + short(n / USD); }
   function full(n) { return Math.round(n).toLocaleString('en-US'); }
+  function sqm(n) { return full(n * 0.092903); }
   function month(d) { if (!d) return '–'; var p = d.split('-'); return MONTHS[+p[1] - 1] + ' ' + p[0]; }
   function beds(b) {
     if (!b || (b[0] == null && b[1] == null)) return '';
@@ -134,7 +135,8 @@
     // Two columns: content and the side card that follows the scroll
     html += '<div class="op-layout"><div class="op-main">';
 
-    var size = p.size && p.size[0] ? full(p.size[0]) + (p.size[1] && p.size[1] !== p.size[0] ? ' to ' + full(p.size[1]) : '') + ' sq ft' : '–';
+    var rng = p.size && p.size[1] && p.size[1] !== p.size[0];
+    var size = p.size && p.size[0] ? full(p.size[0]) + (rng ? ' to ' + full(p.size[1]) : '') + ' sq ft<small>' + sqm(p.size[0]) + (rng ? ' to ' + sqm(p.size[1]) : '') + ' sqm</small>' : '–';
     html += '<dl class="op-facts">' +
       '<div class="op-fact-price"><dt>Starting price</dt><dd>AED ' + full(p.price) + '<small>about USD ' + full(p.price / USD) + '</small></dd></div>' +
       '<div><dt>Handover</dt><dd>' + month(p.ho) + '</dd></div>' +
@@ -154,7 +156,7 @@
     // Why this project: a factual summary built from the project data
     var why = [];
     why.push('<strong>Location.</strong> ' + esc(where) + ', Dubai.');
-    if (beds(p.beds) || p.types.length) why.push('<strong>Homes.</strong> ' + (beds(p.beds) ? beds(p.beds) + ' ' : '') + esc(types(p.types).toLowerCase() || 'homes') + (p.size && p.size[0] ? ', from ' + full(p.size[0]) + ' sq ft' : '') + '.');
+    if (beds(p.beds) || p.types.length) why.push('<strong>Homes.</strong> ' + (beds(p.beds) ? beds(p.beds) + ' ' : '') + esc(types(p.types).toLowerCase() || 'homes') + (p.size && p.size[0] ? ', from ' + full(p.size[0]) + ' sq ft (' + sqm(p.size[0]) + ' sqm)' : '') + '.');
     why.push('<strong>Entry price.</strong> From AED ' + full(p.price) + ', about USD ' + full(p.price / USD) + '.');
     if (p.plan) {
       var before = p.plan[0] + p.plan[1], after = p.plan[2] + p.plan[3];
@@ -185,7 +187,7 @@
         '<table class="op-table"><thead><tr><th>Home type</th><th>Size</th><th>From</th><th>Floor plan</th></tr></thead><tbody>' +
         order.map(function (k) {
           var g = groups[k], lo = Math.min.apply(null, g.sizes), hi = Math.max.apply(null, g.sizes), pr = Math.min.apply(null, g.prices);
-          var sz = g.sizes.length ? full(lo) + (hi > lo ? ' to ' + full(hi) : '') + ' sq ft' : '–';
+          var sz = g.sizes.length ? full(lo) + (hi > lo ? ' to ' + full(hi) : '') + ' sq ft<small>' + sqm(lo) + (hi > lo ? ' to ' + sqm(hi) : '') + ' sqm</small>' : '–';
           return '<tr><td>' + esc(k) + '</td><td>' + sz + '</td><td>' +
             (g.prices.length ? 'AED ' + full(pr) + '<small>about USD ' + full(pr / USD) + '</small>' : 'On request') + '</td><td>' +
             (g.img ? '<a href="' + esc(g.img) + '" target="_blank" rel="noopener">View</a>' : '–') + '</td></tr>';
