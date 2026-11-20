@@ -4,6 +4,15 @@
     <loc>https://spdarealty.com/</loc>
     <lastmod>2026-11-13</lastmod>
     <video:video>
+      <video:thumbnail_loc>https://spdarealty.com/media/canopies-life.jpg</video:thumbnail_loc>
+      <video:title>The Canopies Sanctuary: meet your new neighbours</video:title>
+      <video:description>The Canopies Sanctuary at Yas Point, Yas Island by Aldar: amenities including podium garden, canopy lounge and kids' pool. Developer imagery, artist's impressions.</video:description>
+      <video:content_loc>https://spdarealty.com/media/canopies-life.mp4</video:content_loc>
+      <video:duration>34</video:duration>
+      <video:publication_date>2026-11-22</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+    <video:video>
       <video:thumbnail_loc>https://spdarealty.com/media/canopies.jpg</video:thumbnail_loc>
       <video:title>The Canopies Sanctuary, Yas Point: launching very soon</video:title>
       <video:description>The Canopies Sanctuary at Yas Point, Yas Island by Aldar: 388 homes from studios to 3-bedrooms. Developer imagery, artist's impressions.</video:description>
