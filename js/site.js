@@ -195,12 +195,12 @@
       if (!best) { h.style.maxWidth = ''; return; }
       h.classList.add('fit');
       h.style.fontSize = (best.f * 0.995).toFixed(2) + 'px';
+      /* "justify low": word spacing only, and a line is stretched only when it is already near full width */
       var k = best.f * 0.995 / F0, ls0 = (parseFloat(cs.letterSpacing) || 0) * k;
       h.innerHTML = best.lines.map(function (l) {
-        /* share the spare width: half as letter spacing, half as word spacing (justify) */
-        probe.textContent = l; var spare = W - probe.getBoundingClientRect().width * k;
-        var ls = l.length > 1 ? ls0 + spare * 0.5 / (l.length - 1) : ls0;
-        return '<span class="fl' + (/\s/.test(l) ? '' : ' one') + '" style="letter-spacing:' + ls.toFixed(2) + 'px">' + esc(l) + '</span>';
+        probe.textContent = l; var r = probe.getBoundingClientRect().width * k / W;
+        var low = !/\s/.test(l) || r < 0.94;
+        return '<span class="fl' + (low ? ' one' : '') + '">' + esc(l) + '</span>';
       }).join(' ');
       /* safety: if any line still wraps, drop the extra tracking, then shrink slightly */
       var spans = [].slice.call(h.querySelectorAll('.fl'));
