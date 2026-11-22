@@ -637,3 +637,7 @@ a.soc:hover{color:var(--vermilion)}
 @media (max-width:820px){.page-head h1.h1-fit{font-size:min(calc((100vw - 40px) / 13.2), 2.5rem);max-width:none;letter-spacing:-.02em}}
 /* Body text justified so paragraphs fill the column and align with headings and buttons */
 main p:not([class]),main li p,.lead,.pitch,.bio,.body,.new-firm,.svc-hint,.fact-list li{text-align:justify;text-justify:inter-word;hyphens:manual}
+
+/* Phones: fitted headings (js/site.js) fill the column edge to edge */
+@media (max-width:820px){h1.fit,h2.fit{max-width:none;text-wrap:wrap}.fit .fl{display:block;text-align:justify;text-align-last:justify}.fit .fl.one{text-align-last:left}
+main p:not([class]),main li p,.lead,.pitch,.bio,.body,.new-firm,.svc-hint,.fact-list li{hyphens:auto;-webkit-hyphens:auto;hyphenate-limit-chars:8 4 4}}
