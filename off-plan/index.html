@@ -21,7 +21,7 @@
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SPDA Real Estate","item":"https://spdarealty.com/"},{"@type":"ListItem","position":2,"name":"Off-plan projects in Dubai","item":"https://spdarealty.com/off-plan/"}]}
 </script>
 <link rel="stylesheet" href="/css/fonts.css?v=20261130">
-<link rel="stylesheet" href="/css/style.css?v=20261123c">
+<link rel="stylesheet" href="/css/style.css?v=20261123d">
 </head>
 <body>
 <header class="top">
@@ -66,10 +66,10 @@
         <label><span>Developer</span><span class="op-field"><select id="op-dev"><option value="">All developers</option></select></span></label>
         <label><span>Bedrooms</span><span class="op-field"><select id="op-beds"><option value="">Any</option><option value="0">Studio</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5 or more</option></select></span></label>
         <label><span>Budget</span><span class="op-field"><select id="op-max"><option value="">Any budget</option><option value="0-1000000">Up to AED 1M</option><option value="1000000-2000000">AED 1M to 2M</option><option value="2000000-3000000">AED 2M to 3M</option><option value="3000000-5000000">AED 3M to 5M</option><option value="5000000-10000000">AED 5M to 10M</option><option value="10000000-">Over AED 10M</option><option value="50000000-">Over AED 50M</option><option value="100000000-">Over AED 100M</option></select></span></label>
-        <label><span>Sort</span><span class="op-field"><select id="op-sort"><option value="updated">Latest</option><option value="price_asc">Price, low to high</option><option value="price_desc">Price, high to low</option><option value="handover">Handover, soonest</option></select></span></label>
+        <label><span>Status</span><span class="op-field"><select id="op-status"><option value="">All</option><option value="ACTIVE">Active</option><option value="CONSTRUCTION">Under construction</option></select></span></label>
         <button type="button" class="op-reset" id="op-reset" hidden>Clear filters</button>
       </form>
-      <div class="op-count"><p class="cap" id="op-count" aria-live="polite"></p><p class="cap" id="op-synced"></p></div>
+      <div class="op-count"><div><p class="cap" id="op-count" aria-live="polite"></p><p class="cap" id="op-synced"></p></div><label class="op-sort"><span>Sort by</span><select id="op-sort"><option value="updated">Latest</option><option value="price_asc">Price, low to high</option><option value="price_desc">Price, high to low</option><option value="handover">Handover, soonest</option></select></label></div>
     </div>
   </section>
   <section class="sec" aria-label="Projects" style="padding-top:0">
@@ -110,7 +110,7 @@
   </div>
 </footer>
 <script src="/js/site.js?v=20261119op" defer></script>
-<script src="/js/offplan.js?v=20261123c" defer></script>
+<script src="/js/offplan.js?v=20261123d" defer></script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "e35a08c1fe7442f98a70d6d2c591d5ac"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>
