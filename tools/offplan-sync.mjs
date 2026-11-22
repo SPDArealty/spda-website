@@ -121,7 +121,7 @@ async function main() {
 
   const list = listed.map((p) => ({
     id: p.id, f: safeId(p.id), name: p.name, dev: p.dev, area: p.area, price: p.price, ho: p.ho,
-    beds: p.beds, types: p.types, plan: p.plan, img: p.img[0] || null, upd: p.upd,
+    beds: p.beds, types: p.types, plan: p.plan, img: p.img[0] || null, upd: p.upd, stage: p.stage,
   }));
   await writeFile(new URL("list.json", OUT), JSON.stringify({
     source: "BlackDrive Live API",

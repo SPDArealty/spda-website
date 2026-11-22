@@ -27,9 +27,12 @@
     return src ? '<img class="op-photo" src="' + esc(src) + '" alt="' + esc(alt) + '"' + (eager ? ' fetchpriority="high"' : ' loading="lazy"') + ' referrerpolicy="no-referrer">' : '';
   }
 
+  var STAGE = { ACTIVE: 'Active', CONSTRUCTION: 'Under construction' };
+  function stage(s) { return STAGE[s] ? '<span class="op-stage' + (s === 'ACTIVE' ? ' on' : '') + '">' + STAGE[s] + '</span>' : ''; }
+
   function card(p) {
     return '<a class="op-card" href="/off-plan/project/?id=' + encodeURIComponent(p.f) + '"><span class="op-in">' +
-      '<figure>' + img(p.img, '') + '</figure>' +
+      '<figure>' + img(p.img, '') + stage(p.stage) + '</figure>' +
       '<h3>' + esc(p.name) + '</h3>' +
       '<p class="op-where">' + esc(p.dev) + ' · ' + esc(p.area) + '</p>' +
       '<p class="op-price"><strong>From ' + aed(p.price) + '</strong><span>' + usd(p.price) + '</span></p>' +
@@ -43,17 +46,18 @@
     var all = [], shown = 0, PAGE = 24, current = [];
     var f = {
       q: document.getElementById('op-q'), area: document.getElementById('op-area'), dev: document.getElementById('op-dev'),
-      beds: document.getElementById('op-beds'), max: document.getElementById('op-max'), sort: document.getElementById('op-sort')
+      beds: document.getElementById('op-beds'), max: document.getElementById('op-max'), status: document.getElementById('op-status'), sort: document.getElementById('op-sort')
     };
     var count = document.getElementById('op-count'), more = document.getElementById('op-more');
 
     function apply() {
-      var q = f.q.value.trim().toLowerCase(), a = f.area.value, d = f.dev.value, b = f.beds.value, rg = f.max.value.split('-'), lo$ = +rg[0] || 0, hi$ = +rg[1] || 0;
-      document.getElementById('op-reset').hidden = !(q || a || d || b !== '' || f.max.value);
+      var q = f.q.value.trim().toLowerCase(), a = f.area.value, d = f.dev.value, b = f.beds.value, st = f.status.value, rg = f.max.value.split('-'), lo$ = +rg[0] || 0, hi$ = +rg[1] || 0;
+      document.getElementById('op-reset').hidden = !(q || a || d || b !== '' || f.max.value || st);
       current = all.filter(function (p) {
         if (q && (p.name + ' ' + p.dev + ' ' + p.area).toLowerCase().indexOf(q) < 0) return false;
         if (a && p.area !== a) return false;
         if (d && p.dev !== d) return false;
+        if (st && p.stage !== st) return false;
         if (lo$ && p.price <= lo$) return false;
         if (hi$ && p.price > hi$) return false;
         if (b !== '') { var n = +b; if (!p.beds) return false; var lo = p.beds[0] == null ? p.beds[1] : p.beds[0], hi = p.beds[1] == null ? lo : p.beds[1]; if (n === 5 ? hi < 5 : (n < lo || n > hi)) return false; }
@@ -84,13 +88,13 @@
       var uniq = function (k) { var o = {}; all.forEach(function (p) { if (p[k]) o[p[k]] = 1; }); return Object.keys(o).sort(); };
       options(f.area, uniq('area')); options(f.dev, uniq('dev'));
       var params = new URLSearchParams(location.search);
-      ['q','area','dev','beds','max','sort'].forEach(function (k) { if (params.get(k)) f[k].value = params.get(k); });
+      ['q','area','dev','beds','max','status','sort'].forEach(function (k) { if (params.get(k)) f[k].value = params.get(k); });
       document.getElementById('op-synced').textContent = 'Data updated ' + new Date(data.synced).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
       apply();
     }).catch(function () { count.textContent = 'The project list could not be loaded. Please try again later.'; });
     Object.keys(f).forEach(function (k) { f[k].addEventListener(k === 'q' ? 'input' : 'change', apply); });
     more.addEventListener('click', render);
-    document.getElementById('op-reset').addEventListener('click', function () { f.q.value = f.area.value = f.dev.value = f.beds.value = f.max.value = ''; apply(); });
+    document.getElementById('op-reset').addEventListener('click', function () { f.q.value = f.area.value = f.dev.value = f.beds.value = f.max.value = f.status.value = ''; apply(); });
   }
 
   /* ---------------- Project page ---------------- */
