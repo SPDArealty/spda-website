@@ -27,9 +27,12 @@
     return src ? '<img class="op-photo" src="' + esc(src) + '" alt="' + esc(alt) + '"' + (eager ? ' fetchpriority="high"' : ' loading="lazy"') + ' referrerpolicy="no-referrer">' : '';
   }
 
+  var STAGE = { ACTIVE: 'Active', CONSTRUCTION: 'Under construction' };
+  function stage(s) { return STAGE[s] ? '<span class="op-stage' + (s === 'ACTIVE' ? ' on' : '') + '">' + STAGE[s] + '</span>' : ''; }
+
   function card(p) {
     return '<a class="op-card" href="/off-plan/project/?id=' + encodeURIComponent(p.f) + '"><span class="op-in">' +
-      '<figure>' + img(p.img, '') + '</figure>' +
+      '<figure>' + img(p.img, '') + stage(p.stage) + '</figure>' +
       '<h3>' + esc(p.name) + '</h3>' +
       '<p class="op-where">' + esc(p.dev) + ' · ' + esc(p.area) + '</p>' +
       '<p class="op-price"><strong>From ' + aed(p.price) + '</strong><span>' + usd(p.price) + '</span></p>' +
