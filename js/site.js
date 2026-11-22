@@ -147,4 +147,71 @@
   });
 })();
 
-(function(){try{var v=document.querySelector('.hero video.bg');if(v&&window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches){v.removeAttribute('autoplay');v.pause();}}catch(e){}})();
+(function(){try{var v=document.querySelector('.hero video.bg');if(v&&window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches){v.removeAttribute('autoplay');v.pause();}}catch(e){}  /* ---------- Phones: headings fill the text column edge to edge ---------- */
+  (function () {
+    var SEL = '.hero h1, .page-head h1, .op-head h1, main h2';
+    var mq = window.matchMedia('(max-width:820px)');
+    var items = [].slice.call(document.querySelectorAll(SEL)).filter(function (h) {
+      return ![].slice.call(h.querySelectorAll('*')).some(function (c) { return !/^(BR|SPAN)$/.test(c.tagName); });
+    }).map(function (h) { return { h: h, html: h.innerHTML }; });
+    if (!items.length) return;
+    var probe = document.createElement('span');
+    probe.setAttribute('aria-hidden', 'true');
+    probe.style.cssText = 'position:absolute;left:-9999px;top:0;white-space:nowrap;visibility:hidden';
+    document.body.appendChild(probe);
+    function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+    function fit(it) {
+      var h = it.h;
+      h.innerHTML = it.html; h.style.fontSize = ''; h.style.maxWidth = ''; h.classList.remove('fit');
+      if (!mq.matches) return;
+      var tmp = document.createElement('div'); tmp.innerHTML = it.html.replace(/<br[^>]*>/gi, ' ');
+      var words = tmp.textContent.trim().split(/\s+/);
+      if (words.length < 2) return;
+      var cs = getComputedStyle(h), F0 = parseFloat(cs.fontSize);
+      ['fontFamily', 'fontWeight', 'fontSize', 'letterSpacing', 'textTransform', 'wordSpacing'].forEach(function (k) { probe.style[k] = cs[k]; });
+      h.style.maxWidth = 'none';
+      var W = h.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      var cache = {};
+      function wd(a, b) { var k = a + ',' + b; if (!(k in cache)) { probe.textContent = words.slice(a, b).join(' '); cache[k] = probe.getBoundingClientRect().width; } return cache[k]; }
+      var best = null;
+      for (var n = 1; n <= Math.min(5, words.length); n++) {
+        var part = split(0, n);
+        if (!part) continue;
+        var f = F0 * W / part.max;
+        if (f < F0 * 0.8 || f > F0 * 1.3 || part.min / part.max < 0.7) continue;
+        var score = Math.abs(f - F0) / F0 + (1 - part.min / part.max) * 0.5;
+        if (!best || score < best.score) best = { score: score, f: f, lines: part.lines };
+      }
+      function split(s, n) { /* balanced: minimise the widest line, then maximise the narrowest */
+        if (n === 1) { var w = wd(s, words.length); return { max: w, min: w, lines: [words.slice(s).join(' ')] }; }
+        var r = null;
+        for (var e = s + 1; e <= words.length - n + 1; e++) {
+          var rest = split(e, n - 1), w1 = wd(s, e);
+          var c = { max: Math.max(w1, rest.max), min: Math.min(w1, rest.min), lines: [words.slice(s, e).join(' ')].concat(rest.lines) };
+          if (!r || c.max < r.max - 0.5 || (Math.abs(c.max - r.max) <= 0.5 && c.min > r.min)) r = c;
+        }
+        return r;
+      }
+      if (!best) { h.style.maxWidth = ''; return; }
+      h.classList.add('fit');
+      h.style.fontSize = (best.f * 0.995).toFixed(2) + 'px';
+      var k = best.f * 0.995 / F0, ls0 = (parseFloat(cs.letterSpacing) || 0) * k;
+      h.innerHTML = best.lines.map(function (l) {
+        /* share the spare width: half as letter spacing, half as word spacing (justify) */
+        probe.textContent = l; var spare = W - probe.getBoundingClientRect().width * k;
+        var ls = l.length > 1 ? ls0 + spare * 0.5 / (l.length - 1) : ls0;
+        return '<span class="fl' + (/\s/.test(l) ? '' : ' one') + '" style="letter-spacing:' + ls.toFixed(2) + 'px">' + esc(l) + '</span>';
+      }).join(' ');
+      /* safety: if any line still wraps, drop the extra tracking, then shrink slightly */
+      var spans = [].slice.call(h.querySelectorAll('.fl'));
+      function wraps() { return spans.some(function (sp) { return sp.offsetHeight > parseFloat(h.style.fontSize) * 1.7; }); }
+      if (wraps()) spans.forEach(function (sp) { sp.style.letterSpacing = ls0.toFixed(2) + 'px'; });
+      for (var i = 0; i < 12 && wraps(); i++) h.style.fontSize = (parseFloat(h.style.fontSize) * 0.98).toFixed(2) + 'px';
+    }
+    var lastW = 0;
+    function run() { var w = window.innerWidth; if (w === lastW) return; lastW = w; items.forEach(fit); }
+    (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(function () { lastW = 0; run(); });
+    window.addEventListener('resize', run);
+    run();
+  })();
+})();
