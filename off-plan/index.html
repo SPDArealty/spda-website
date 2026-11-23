@@ -21,7 +21,7 @@
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SPDA Real Estate","item":"https://spdarealty.com/"},{"@type":"ListItem","position":2,"name":"Off-plan projects in Dubai","item":"https://spdarealty.com/off-plan/"}]}
 </script>
 <link rel="stylesheet" href="/css/fonts.css?v=20261130">
-<link rel="stylesheet" href="/css/style.css?v=20261123f">
+<link rel="stylesheet" href="/css/style.css?v=20261123g">
 </head>
 <body>
 <header class="top">
@@ -65,9 +65,23 @@
         <label><span>Area</span><span class="op-field"><select id="op-area"><option value="">All areas</option></select></span></label>
         <label><span>Developer</span><span class="op-field"><select id="op-dev"><option value="">All developers</option></select></span></label>
         <label><span>Bedrooms</span><span class="op-field"><select id="op-beds"><option value="">Any</option><option value="0">Studio</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5 or more</option></select></span></label>
-        <label><span>Budget</span><span class="op-field"><select id="op-max"><option value="">Any budget</option><option value="0-1000000">Up to AED 1M</option><option value="1000000-2000000">AED 1M to 2M</option><option value="2000000-3000000">AED 2M to 3M</option><option value="3000000-5000000">AED 3M to 5M</option><option value="5000000-10000000">AED 5M to 10M</option><option value="10000000-">Over AED 10M</option><option value="50000000-">Over AED 50M</option><option value="100000000-">Over AED 100M</option></select></span></label>
+        <label class="op-bud"><span>Budget</span><span class="op-field"><button type="button" id="op-bud-btn" aria-expanded="false" aria-controls="op-bud">Any budget</button><input type="hidden" id="op-max"></span></label>
         <label><span>Status</span><span class="op-field"><select id="op-status"><option value="">All</option><option value="ACTIVE">Active</option><option value="CONSTRUCTION">Under construction</option></select></span></label>
         <button type="button" class="op-reset" id="op-reset" hidden>Clear filters</button>
+        <div class="op-bud-panel" id="op-bud" role="dialog" aria-label="Budget range" hidden>
+          <div class="op-bud-read">
+            <div><span class="op-bud-k">Minimum</span><strong id="op-bud-lo">AED 0</strong><small id="op-bud-lo-usd">USD 0</small></div>
+            <div><span class="op-bud-k">Maximum</span><strong id="op-bud-hi">AED 100M+</strong><small id="op-bud-hi-usd">USD 27.2M+</small></div>
+          </div>
+          <div class="op-bud-scale">
+            <div class="op-bud-hist" id="op-bud-hist" aria-hidden="true"></div>
+            <div class="op-bud-track" aria-hidden="true"><i id="op-bud-fill"></i></div>
+            <input type="range" id="op-bud-min" min="0" max="30" step="1" value="0" aria-label="Minimum budget">
+            <input type="range" id="op-bud-max" min="0" max="30" step="1" value="30" aria-label="Maximum budget">
+            <div class="op-bud-ticks" id="op-bud-ticks" aria-hidden="true"></div>
+          </div>
+          <div class="op-bud-foot"><button type="button" class="op-bud-clear" id="op-bud-clear">Any budget</button><button type="button" class="btn ink btn-sm" id="op-bud-done">Show projects</button></div>
+        </div>
       </form>
       <div class="op-count"><label class="op-sort"><span>Sort by</span><select id="op-sort"><option value="updated">Latest</option><option value="price_asc">Price, low to high</option><option value="price_desc">Price, high to low</option><option value="handover">Handover, soonest</option></select></label><div class="op-meta"><p class="cap" id="op-count" aria-live="polite"></p><p class="cap" id="op-synced"></p></div></div>
     </div>
@@ -110,7 +124,7 @@
   </div>
 </footer>
 <script src="/js/site.js?v=20261123low2" defer></script>
-<script src="/js/offplan.js?v=20261123e" defer></script>
+<script src="/js/offplan.js?v=20261123f" defer></script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "e35a08c1fe7442f98a70d6d2c591d5ac"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>
