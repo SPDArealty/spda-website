@@ -58,7 +58,7 @@
         if (a && p.area !== a) return false;
         if (d && p.dev !== d) return false;
         if (st && p.stage !== st) return false;
-        if (lo$ && p.price <= lo$) return false;
+        if (lo$ && p.price < lo$) return false;
         if (hi$ && p.price > hi$) return false;
         if (b !== '') { var n = +b; if (!p.beds) return false; var lo = p.beds[0] == null ? p.beds[1] : p.beds[0], hi = p.beds[1] == null ? lo : p.beds[1]; if (n === 5 ? hi < 5 : (n < lo || n > hi)) return false; }
         return true;
@@ -71,6 +71,78 @@
         return (y.upd || '') < (x.upd || '') ? -1 : (y.upd || '') > (x.upd || '') ? 1 : 0;
       });
       shown = 0; grid.innerHTML = ''; render();
+      bud.sync();
+    }
+    /* Budget: dual-handle ruler. Steps are finer where most projects sit. */
+    function budget() {
+      var STEPS = [0, 5e5, 7.5e5, 1e6, 1.25e6, 1.5e6, 1.75e6, 2e6, 2.25e6, 2.5e6, 2.75e6, 3e6, 3.5e6, 4e6, 4.5e6, 5e6, 6e6, 7e6, 8e6, 9e6, 1e7, 1.25e7, 1.5e7, 1.75e7, 2e7, 2.5e7, 3e7, 4e7, 5e7, 7.5e7, 1e8];
+      var TOP = STEPS.length - 1, MAJOR = { 0: '0', 3: '1M', 7: '2M', 11: '3M', 15: '5M', 20: '10M', 24: '20M', 28: '50M', 30: '100M+' };
+      var $ = function (id) { return document.getElementById(id); };
+      var btn = $('op-bud-btn'), panel = $('op-bud'), form = panel.parentNode, label = btn.closest('label');
+      var rMin = $('op-bud-min'), rMax = $('op-bud-max'), fill = $('op-bud-fill'), histEl = $('op-bud-hist'), done = $('op-bud-done');
+      var pct = function (i) { return (i / TOP * 100) + '%'; };
+      var lab = function (i, cur) { return i === TOP ? cur + ' ' + short(STEPS[TOP] / (cur === 'USD' ? USD : 1)) + '+' : cur + ' ' + short(STEPS[i] / (cur === 'USD' ? USD : 1)); };
+      var snap = function (v) { var b = 0; STEPS.forEach(function (x, i) { if (Math.abs(x - v) < Math.abs(STEPS[b] - v)) b = i; }); return b; };
+      $('op-bud-ticks').innerHTML = STEPS.map(function (x, i) {
+        return '<span class="' + (MAJOR[i] ? 'mj' + (i === 28 ? ' m50' : '') : '') + '" style="left:' + pct(i) + '">' + (MAJOR[i] ? '<b>' + MAJOR[i] + '</b>' : '') + '</span>';
+      }).join('');
+      histEl.innerHTML = STEPS.slice(0, TOP).map(function (x, i) { return '<i style="left:' + pct(i) + ';width:calc(' + (100 / TOP) + '% - 2px)"></i>'; }).join('');
+      var bars = histEl.children;
+
+      function show() {
+        var lo = +rMin.value, hi = +rMax.value;
+        fill.style.left = pct(lo); fill.style.right = ((TOP - hi) / TOP * 100) + '%';
+        $('op-bud-lo').textContent = lab(lo, 'AED'); $('op-bud-lo-usd').textContent = lab(lo, 'USD');
+        $('op-bud-hi').textContent = lab(hi, 'AED'); $('op-bud-hi-usd').textContent = lab(hi, 'USD');
+        for (var i = 0; i < bars.length; i++) bars[i].classList.toggle('on', i >= lo && i < hi);
+        btn.textContent = lo === 0 && hi === TOP ? 'Any budget' : lo === 0 ? 'Up to ' + lab(hi, 'AED') : hi === TOP ? 'From ' + lab(lo, 'AED') : lab(lo, 'AED') + ' to ' + short(STEPS[hi]);
+        btn.classList.toggle('set', !(lo === 0 && hi === TOP));
+      }
+      function commit() {
+        var lo = +rMin.value, hi = +rMax.value;
+        f.max.value = lo === 0 && hi === TOP ? '' : (lo ? STEPS[lo] : '0') + '-' + (hi === TOP ? '' : STEPS[hi]);
+        apply();
+      }
+      function move(e) {
+        var lo = +rMin.value, hi = +rMax.value;
+        if (lo >= hi) { if (e.target === rMin) rMin.value = hi - 1; else rMax.value = lo + 1; }
+        rMin.style.zIndex = +rMin.value > TOP - 3 ? 3 : 1; // keep the lower handle reachable at the top end
+        show(); commit();
+      }
+      rMin.addEventListener('input', move); rMax.addEventListener('input', move);
+
+      function place() { // right edge under the Budget segment, never past the bar
+        var w = form.offsetWidth, pw = w < 600 ? w : Math.min(w, 560), b = parseFloat(getComputedStyle(form).borderLeftWidth) || 0;
+        var left = Math.max(-b, Math.min(label.offsetLeft + label.offsetWidth - pw, w - b - pw));
+        panel.style.top = (label.offsetTop + label.offsetHeight) + 'px';
+        panel.style.left = (w < 600 ? -b : left) + 'px'; panel.style.width = w < 600 ? 'calc(100% + ' + 2 * b + 'px)' : pw + 'px';
+      }
+      function open(state) {
+        panel.hidden = !state; btn.setAttribute('aria-expanded', state); label.classList.toggle('open', state);
+        if (state) { place(); rMax.focus({ preventScroll: true }); }
+      }
+      btn.addEventListener('click', function () { open(panel.hidden); });
+      done.addEventListener('click', function () { open(false); btn.focus(); });
+      $('op-bud-clear').addEventListener('click', function () { rMin.value = 0; rMax.value = TOP; show(); commit(); });
+      document.addEventListener('pointerdown', function (e) { if (!panel.hidden && !panel.contains(e.target) && !label.contains(e.target)) open(false); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !panel.hidden) { open(false); btn.focus(); } });
+      window.addEventListener('resize', function () { if (!panel.hidden) place(); });
+
+      return {
+        load: function () { // read "lo-hi" from the hidden field (also old bracket links)
+          var rg = (f.max.value || '').split('-');
+          rMin.value = rg[0] ? snap(+rg[0]) : 0;
+          rMax.value = rg[1] ? Math.max(snap(+rg[1]), +rMin.value + 1) : TOP;
+          show();
+        },
+        hist: function () {
+          var n = STEPS.slice(0, TOP).map(function () { return 0; });
+          all.forEach(function (p) { if (!p.price) return; for (var i = TOP - 1; i >= 0; i--) if (p.price >= STEPS[i]) { n[i]++; break; } });
+          var m = Math.max.apply(null, n) || 1;
+          n.forEach(function (c, i) { bars[i].style.height = (c ? Math.max(6, Math.sqrt(c / m) * 100) : 0) + '%'; bars[i].title = c + ' projects'; });
+        },
+        sync: function () { done.textContent = current.length ? 'Show ' + current.length + ' projects' : 'No projects in this range'; }
+      };
     }
     function render() {
       var next = current.slice(shown, shown + PAGE);
@@ -85,16 +157,19 @@
     }
     fetch('/data/offplan/list.json').then(function (r) { return r.json(); }).then(function (data) {
       all = data.projects;
+      bud.hist();
       var uniq = function (k) { var o = {}; all.forEach(function (p) { if (p[k]) o[p[k]] = 1; }); return Object.keys(o).sort(); };
       options(f.area, uniq('area')); options(f.dev, uniq('dev'));
       var params = new URLSearchParams(location.search);
       ['q','area','dev','beds','max','status','sort'].forEach(function (k) { if (params.get(k)) f[k].value = params.get(k); });
+      bud.load();
       document.getElementById('op-synced').textContent = 'Data updated ' + new Date(data.synced).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
       apply();
     }).catch(function () { count.textContent = 'The project list could not be loaded. Please try again later.'; });
+    var bud = budget();
     Object.keys(f).forEach(function (k) { f[k].addEventListener(k === 'q' ? 'input' : 'change', apply); });
     more.addEventListener('click', render);
-    document.getElementById('op-reset').addEventListener('click', function () { f.q.value = f.area.value = f.dev.value = f.beds.value = f.max.value = f.status.value = ''; apply(); });
+    document.getElementById('op-reset').addEventListener('click', function () { f.q.value = f.area.value = f.dev.value = f.beds.value = f.max.value = f.status.value = ''; bud.load(); apply(); });
   }
 
   /* ---------------- Project page ---------------- */
