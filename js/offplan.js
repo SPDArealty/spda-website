@@ -229,6 +229,8 @@
         '<div class="op-bar">' + parts.map(function (x) {
           return '<div style="flex:' + x.pct + '"><span>' + x.pct + '%</span><small>' + x.stage.charAt(0).toUpperCase() + x.stage.slice(1) + '</small></div>';
         }).join('') + '</div>' +
+        (p.plan_alt ? '<p class="op-note">Also offered: ' + (p.plan_alt[3] ? (p.plan_alt[0] + p.plan_alt[1] + p.plan_alt[2]) + '/' + p.plan_alt[3] : (p.plan_alt[0] + p.plan_alt[1]) + '/' + p.plan_alt[2]) + ' plan, ' +
+          p.plan_alt.map(function (x, i) { return x ? x + '% ' + STAGES[i] : ''; }).filter(Boolean).join(', ') + '.</p>' : '') +
         '<p class="op-note">Developers sometimes change the plan during offers. We confirm the current plan with you.</p></section>';
     }
 
@@ -278,7 +280,7 @@
     if (p.lat && p.lng) html += '<section class="op-sec" id="location" aria-labelledby="loc-h"><div class="sec-head"><h2 id="loc-h">Location</h2></div><div class="op-map" id="op-map" role="region" aria-label="Map of ' + esc(where) + '"></div></section>';
 
     var upd = p.upd ? new Date(p.upd).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' }) : '';
-    html += '<p class="cap op-source">Developer figures via BlackDrive' + (upd ? ', updated ' + upd : '') + '. We confirm price and availability before you reserve.</p>';
+    html += '<p class="cap op-source">' + (p.src ? esc(p.src) : 'Developer figures via BlackDrive' + (upd ? ', updated ' + upd : '')) + '. We confirm price and availability before you reserve.</p>';
     html += '</div>';
 
     // Side card

@@ -81,18 +81,36 @@ function slim(p) {
 
 const safeId = (id) => id.replace(/[^A-Za-z0-9_-]/g, "_");
 
+// Official corrections (data/offplan/overrides.json), checked against the developer's own
+// published sources. Fields starting with "_" are notes; every other field replaces BlackDrive's.
+async function loadOverrides() {
+  try {
+    const o = JSON.parse(await readFile(new URL("overrides.json", OUT)));
+    return Object.fromEntries(Object.entries(o).filter(([k]) => !k.startsWith("_")).map(([id, fix]) =>
+      [id, Object.fromEntries(Object.entries(fix).filter(([k]) => !k.startsWith("_")))]));
+  } catch (e) {
+    if (e.code !== "ENOENT") throw e;
+    return {};
+  }
+}
+
 async function main() {
   const P = new URL("p/", OUT);
   await mkdir(P, { recursive: true });
   const today = new Date().toISOString().slice(0, 10);
 
+  const fixes = await loadOverrides();
   const all = [];
   let page = 1, pages = 1, meta = null;
   do {
     const r = await get(`/projects?emirate=Dubai&sort=updated_desc&page=${page}&size=100`);
     meta = meta || { status: r.data_status, updated: r.last_updated_at };
     pages = r.total_pages;
-    for (const p of r.data) all.push(slim(p));
+    for (const p of r.data) {
+      const s = slim(p);
+      const { units, ...fix } = fixes[s.id] || {};
+      all.push({ ...s, ...fix, fixUnits: units || null });
+    }
   } while (++page <= pages);
 
   // List only projects still being sold, with a price and a handover date still ahead.
@@ -103,7 +121,8 @@ async function main() {
     const file = new URL(`${safeId(p.id)}.json`, P);
     let old = null;
     try { old = JSON.parse(await readFile(file)); } catch {}
-    let units = old && old.upd === p.upd ? old.units : null;
+    // Corrected units win; cached BlackDrive units are reused only if they were not corrections.
+    let units = p.fixUnits || (old && old.upd === p.upd && !old.fixed ? old.units : null);
     if (WITH_PLANS && !units && p.nplans && fetched < PLAN_LIMIT) {
       try {
         const r = await get(`/projects/${encodeURIComponent(p.id)}/floor-plans`);
@@ -116,7 +135,8 @@ async function main() {
       }
       fetched++;
     }
-    await writeFile(file, JSON.stringify({ ...p, units: units || null }));
+    const { fixUnits, ...rest } = p;
+    await writeFile(file, JSON.stringify({ ...rest, units: units || null, ...(fixUnits ? { fixed: true } : {}) }));
   }
 
   const list = listed.map((p) => ({
