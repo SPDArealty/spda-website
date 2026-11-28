@@ -301,6 +301,8 @@ a.soc:hover{color:var(--vermilion)}
 .vid{display:grid;gap:8px;align-content:start}
 .vid-frame{aspect-ratio:9/16;background:var(--ink);margin-bottom:10px}
 .vid-frame video{width:100%;height:100%;object-fit:cover;display:block}
+.img-frame{display:block}
+.img-frame img{width:100%;height:100%;object-fit:contain;display:block}
 .vid h4{margin:0;font-size:1.25rem;line-height:1.2;letter-spacing:-.01em}
 .vid-price{font-weight:700}
 .vid-price span{font-weight:400;color:var(--body-2);margin-left:8px}
