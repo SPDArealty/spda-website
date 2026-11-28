@@ -4,6 +4,33 @@
     <loc>https://spdarealty.com/</loc>
     <lastmod>2026-11-13</lastmod>
     <video:video>
+      <video:thumbnail_loc>https://spdarealty.com/media/cheval-south-bay.jpg</video:thumbnail_loc>
+      <video:title>Cheval South Bay: 193 new homes in Dubai South</video:title>
+      <video:description>Cheval South Bay by Dubai South and Cheval Collection: 98 serviced hotel apartments and 95 branded residences in South Bay, Dubai South, 3 km from Al Maktoum International Airport, opening 2030. Prices on request. South Bay community imagery, illustrative.</video:description>
+      <video:content_loc>https://spdarealty.com/media/cheval-south-bay.mp4</video:content_loc>
+      <video:duration>30</video:duration>
+      <video:publication_date>2026-11-28</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://spdarealty.com/media/serenia-district.jpg</video:thumbnail_loc>
+      <video:title>Serenia District phase 2: two new towers in Jumeirah Islands</video:title>
+      <video:description>Serenia District phase 2 by Palma Development in Jumeirah Islands, Dubai: East Residence 2 and 3, 1 to 4 bedroom apartments, next to JLT and 1.3 km from Dubai Marina Mall. Prices on request. Phase 1 imagery, illustrative.</video:description>
+      <video:content_loc>https://spdarealty.com/media/serenia-district.mp4</video:content_loc>
+      <video:duration>30</video:duration>
+      <video:publication_date>2026-11-27</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://spdarealty.com/media/solaya.jpg</video:thumbnail_loc>
+      <video:title>Solaya: new beachfront launch in Jumeirah 1</video:title>
+      <video:description>Solaya new phase by Meraas and BGRE at La Mer, Jumeirah 1, Dubai: 234 residences by Foster + Partners, 2 to 5 bedrooms, duplexes and a penthouse. Prices on request. Developer imagery, illustrative.</video:description>
+      <video:content_loc>https://spdarealty.com/media/solaya.mp4</video:content_loc>
+      <video:duration>30</video:duration>
+      <video:publication_date>2026-11-27</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+    <video:video>
       <video:thumbnail_loc>https://spdarealty.com/media/maserati-island.jpg</video:thumbnail_loc>
       <video:title>Maserati Island: the world's first Maserati island</video:title>
       <video:description>Maserati Island by SAMANA Collecta on Spain Island, The World Islands, Dubai: location, amenities, developer starting prices from AED 1.5M and the 10/40/50 payment plan. Developer imagery, illustrative.</video:description>
@@ -121,7 +148,7 @@
       <video:family_friendly>yes</video:family_friendly>
     </video:video>
   </url>
-  <url><loc>https://spdarealty.com/media/</loc><lastmod>2026-11-14</lastmod></url>
+  <url><loc>https://spdarealty.com/media/</loc><lastmod>2026-11-28</lastmod></url>
   <url><loc>https://spdarealty.com/services/residential-sales/</loc><lastmod>2026-11-13</lastmod></url>
   <url><loc>https://spdarealty.com/services/residential-leasing/</loc><lastmod>2026-11-13</lastmod></url>
   <url><loc>https://spdarealty.com/services/off-plan-sales/</loc><lastmod>2026-11-19</lastmod></url>
